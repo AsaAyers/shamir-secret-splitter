@@ -1,26 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  Switch,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
+import Home from './home'
+import NewSecret from './new-secret'
+import PrintSecret from './print-secret'
+import AssembleSecret from './assemble-secret'
 
-const App: React.FC = () => {
+export default function App() {
+  const location = useLocation()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/edit">NewSecret</Link>
+            </li>
+            <li>
+              <Link to="/assemble">AssembleSecret</Link>
+            </li>
+          </ul>
+          {JSON.stringify(location)}
+        </nav>
+
+        <Switch>
+          <Route path="/edit">
+            <NewSecret />
+          </Route>
+          <Route path="/print">
+            <PrintSecret />
+          </Route>
+          <Route path="/assemble">
+            <AssembleSecret />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </React.Fragment>
   );
 }
-
-export default App;
