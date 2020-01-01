@@ -4,7 +4,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
 // @ts-ignore
-import { TextEncoder, TextDecoder } from 'fastestsmallesttextencoderdecoder';
+import { TextEncoder, TextDecoder } from 'text-encoder';
 // @ts-ignore
 global.TextEncoder = TextEncoder
 // @ts-ignore

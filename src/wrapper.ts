@@ -3,15 +3,12 @@ import { randomBytes } from 'crypto'
 import { Secret, Part } from './types'
 
 export function split(secret: Secret): Part[] {
-
   const utf8Encoder = new TextEncoder();
-  // const utf8Decoder = new TextDecoder();
   let secretBytes = utf8Encoder.encode(secret.text);
-  // secretBytes = Uint8Array.from(secretBytes)
 
-  const parts = shamir.split(randomBytes, secret.numParts, secret.quorum, secretBytes);
+  const uintParts = shamir.split(randomBytes, secret.numParts, secret.quorum, secretBytes);
 
-  return Object.entries(parts).map(([key, uint]): Part => {
+  return Object.entries(uintParts).map(([key, uint]): Part => {
     return {
       label: secret.label,
       numParts: secret.numParts,
@@ -20,4 +17,17 @@ export function split(secret: Secret): Part[] {
       hex: Buffer.from(uint).toString('hex')
     }
   })
+}
+
+export function join(parts: Part[]): Secret['text'] {
+  const uintParts = parts
+    .reduce((obj, p) => {
+      obj[p.index] = Uint8Array.from(Buffer.from(p.hex, 'hex'))
+      return obj
+    }, {} as Record<string, Uint8Array>)
+  const utf8Decoder = new TextDecoder();
+
+  const bytes = shamir.join(uintParts)
+
+  return utf8Decoder.decode(bytes)
 }
