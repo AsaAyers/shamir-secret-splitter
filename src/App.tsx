@@ -5,6 +5,7 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
+import { Routes } from './constants'
 import Home from './home'
 import NewSecret from './new-secret'
 import PrintSecret from './print-secret'
@@ -18,29 +19,29 @@ export default function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to={Routes.Home}>Home</Link>
             </li>
             <li>
-              <Link to="/edit">NewSecret</Link>
+              <Link to={Routes.Edit}>NewSecret</Link>
             </li>
             <li>
-              <Link to="/assemble">AssembleSecret</Link>
+              <Link to={Routes.Assemble}>AssembleSecret</Link>
             </li>
           </ul>
           {JSON.stringify(location)}
         </nav>
 
         <Switch>
-          <Route path="/edit">
+          <Route path={Routes.Edit}>
             <NewSecret />
           </Route>
-          <Route path="/print">
+          <Route path={Routes.Print}>
             <PrintSecret />
           </Route>
-          <Route path="/assemble">
+          <Route path={Routes.Assemble}>
             <AssembleSecret />
           </Route>
-          <Route path="/">
+          <Route path={Routes.Home}>
             <Home />
           </Route>
         </Switch>

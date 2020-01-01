@@ -1,5 +1,6 @@
 import React from 'react'
 import { useHistory } from "react-router-dom";
+import { Routes } from './constants'
 import { useSecretFromLocation } from './print-secret'
 import { Secret } from './types'
 
@@ -31,7 +32,7 @@ export default function NewSecret() {
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    history.push("/print", state)
+    history.push(Routes.Print, state)
 
   }
 

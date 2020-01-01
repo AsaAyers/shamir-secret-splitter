@@ -1,6 +1,7 @@
 import React from 'react'
-import { Secret } from './types'
+import { Secret } from '../types'
 import { useLocation, useHistory, Link } from "react-router-dom";
+import { Routes } from '../constants';
 
 export function useSecretFromLocation(): Secret | null {
   const location = useLocation()
@@ -29,7 +30,7 @@ export default function PrintSecret() {
       || !secret.parts
       || !secret.subset
     ) {
-      history.push('/new', secret)
+      history.push(Routes.Edit, secret)
     }
   }, [history, secret])
 
