@@ -1,21 +1,16 @@
 import React from 'react'
 import { useHistory } from "react-router-dom";
-import { Routes } from './constants'
+import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS, DEFAULT_QUORUM } from './constants'
 import { useSecretFromLocation } from './print-secret'
 import { Secret } from './types'
-
-function useHtmlId() {
-  const id = React.useMemo(() => Math.random().toString(16).substr(2), [])
-
-  return (name: string) => name + '-' + id
-}
+import { useHtmlId } from './hooks'
 
 
 const emptySecret: Secret = {
   label: "",
   text: "",
-  numParts: 4,
-  quorum: 3,
+  numParts: DEFAULT_PARTS,
+  quorum: DEFAULT_QUORUM,
 }
 
 
@@ -38,8 +33,8 @@ export default function NewSecret() {
 
   const partsOptions: number[] = []
   const quorumOptions: number[] = []
-  for (let i = 1; i < 10; i++) {
-    if (i > 1) {
+  for (let i = 1; i < MAX_PARTS; i++) {
+    if (i >= MIN_PARTS) {
       partsOptions.push(i)
     }
     if (i < state.numParts) {

@@ -1,6 +1,6 @@
 import * as shamir from 'shamir'
 import { randomBytes } from 'crypto'
-import { Secret, Part } from './types'
+import { Secret, Part, MinimumPart } from './types'
 
 export function split(secret: Secret): Part[] {
   const utf8Encoder = new TextEncoder();
@@ -19,7 +19,7 @@ export function split(secret: Secret): Part[] {
   })
 }
 
-export function join(parts: Part[]): Secret['text'] {
+export function join(parts: MinimumPart[]): Secret['text'] {
   const uintParts = parts
     .reduce((obj, p) => {
       obj[p.index] = Uint8Array.from(Buffer.from(p.hex, 'hex'))

@@ -6,10 +6,13 @@ export type Secret = {
   quorum: number,
 }
 
-export type Part = {
+export type MinimumPart = {
+  index: number,
+  hex: string,
+}
+
+export type Part = MinimumPart & {
   label: Secret['label'],
   numParts: Secret['numParts'],
   quorum: Secret['quorum'],
-  index: number,
-  hex: string,
 }
