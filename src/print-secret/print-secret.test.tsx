@@ -27,9 +27,9 @@ test('Recieves the secret through location state', () => {
 
   const secret: Secret = {
     label: "Test Secret",
-    secret: "Password: Correct Horse Battery Staple",
-    parts: 4,
-    subset: 3,
+    text: "Password: Correct Horse Battery Staple",
+    numParts: 4,
+    quorum: 3,
   }
 
   const { getByTestId, getAllByText } = render(
@@ -44,12 +44,12 @@ test('Recieves the secret through location state', () => {
     getAllByText(secret.label, { exact: false })[0]
   ).toBeInTheDocument();
   expect(
-    getAllByText(secret.secret, { exact: false })[0]
+    getAllByText(secret.text, { exact: false })[0]
   ).toBeInTheDocument();
   expect(
-    getAllByText(String(secret.subset), { exact: false })[0]
+    getAllByText(String(secret.quorum), { exact: false })[0]
   ).toBeInTheDocument();
   expect(
-    getAllByText(String(secret.parts), { exact: false })[0]
+    getAllByText(String(secret.numParts), { exact: false })[0]
   ).toBeInTheDocument();
 })

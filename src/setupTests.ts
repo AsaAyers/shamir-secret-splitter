@@ -3,3 +3,9 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
+// @ts-ignore
+import { TextEncoder, TextDecoder } from 'fastestsmallesttextencoderdecoder';
+// @ts-ignore
+global.TextEncoder = TextEncoder
+// @ts-ignore
+global.TextDecoder = TextDecoder

@@ -13,9 +13,9 @@ function useHtmlId() {
 
 const emptySecret: Secret = {
   label: "",
-  secret: "",
-  parts: 4,
-  subset: 3,
+  text: "",
+  numParts: 4,
+  quorum: 3,
 }
 
 
@@ -37,13 +37,13 @@ export default function NewSecret() {
   }
 
   const partsOptions: number[] = []
-  const subsetOptions: number[] = []
+  const quorumOptions: number[] = []
   for (let i = 1; i < 10; i++) {
     if (i > 1) {
       partsOptions.push(i)
     }
-    if (i < state.parts) {
-      subsetOptions.push(i)
+    if (i < state.numParts) {
+      quorumOptions.push(i)
     }
   }
 
@@ -62,31 +62,31 @@ export default function NewSecret() {
 
       <br />
 
-      <label htmlFor={id('secret')}>
+      <label htmlFor={id('text')}>
         Secret Text
       </label>
       <textarea
         onChange={handleChange}
-        value={state.secret}
-        name="secret"
-        id={id('secret')} />
+        value={state.text}
+        name="text"
+        id={id('text')} />
 
       <br />
 
-      <label htmlFor={id('subset')}>
-        Subset
+      <label htmlFor={id('quorum')}>
+        quorum
       </label>
-      <select name="subset" id={id('subset')} value={state.subset} onChange={handleChange}>
-        {subsetOptions.map((n) => (
+      <select name="quorum" id={id('quorum')} value={state.quorum} onChange={handleChange}>
+        {quorumOptions.map((n) => (
           <option key={n} value={n}>{n}</option>
         ))}
       </select>
 
       <br />
-      <label htmlFor={id('parts')}>
+      <label htmlFor={id('numParts')}>
         Parts
       </label>
-      <select name="parts" id={id('parts')} value={state.parts} onChange={handleChange}>
+      <select name="numParts" id={id('numParts')} value={state.numParts} onChange={handleChange}>
         {partsOptions.map((n) => (
           <option key={n} value={n}>{n}</option>
         ))}

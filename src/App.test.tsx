@@ -31,7 +31,7 @@ test('Can create a secret', async () => {
 
   const label = `Asa's Secret`
   const secretText = `password: ${Math.random()}`
-  const subset = 3
+  const quorum = 3
   const parts = 4
 
 
@@ -50,8 +50,8 @@ test('Can create a secret', async () => {
 
 
     fireEvent.change(
-      getByLabelText('Subset'),
-      { target: { value: subset } }
+      getByLabelText('quorum'),
+      { target: { value: quorum } }
     )
 
     fireEvent.change(
@@ -80,7 +80,7 @@ test('Can create a secret', async () => {
     getAllByText(secretText, { exact: false })[0]
   ).toBeInTheDocument();
   expect(
-    getAllByText(String(subset), { exact: false })[0]
+    getAllByText(String(quorum), { exact: false })[0]
   ).toBeInTheDocument();
   expect(
     getAllByText(String(parts), { exact: false })[0]

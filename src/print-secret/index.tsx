@@ -1,39 +1,62 @@
 import React from 'react'
 import { Secret } from '../types'
 import { useLocation, useHistory, Link } from "react-router-dom";
+import PartPage from './part-page'
 import { Routes } from '../constants';
+import { split } from '../wrapper'
 
 export function useSecretFromLocation(): Secret | null {
   const location = useLocation()
 
-  if (!location.state) {
-    return null
-  }
+  return React.useMemo(() => {
+    if (!location.state) {
+      return null
+    }
+    const numParts = Number(location.state.numParts || 0)
+    const quorum = Number(location.state.quorum || 0)
 
-  return {
-    label: location.state.label || "",
-    secret: location.state.secret || "",
-    parts: location.state.parts || 0,
-    subset: location.state.subset || 0,
-  }
+    if (!numParts || !quorum || quorum >= numParts) {
+      return null
+    }
+
+    return {
+      label: location.state.label || "",
+      text: location.state.text || "",
+      numParts,
+      quorum,
+    }
+  }, [location.state])
+}
+
+
+export function useShamir(secret: Secret | null) {
+  return React.useMemo(() => {
+    if (secret == null) {
+      return
+    }
+    return split(secret)
+  }, [secret])
 }
 
 export default function PrintSecret() {
   const history = useHistory()
   const secret = useSecretFromLocation()
+  const parts = useShamir(secret)
 
   React.useEffect(() => {
     if (
-      secret == null
+      parts == null
+      || secret == null
       || !secret.label
-      || !secret.secret
-      || !secret.parts
-      || !secret.subset
+      || !secret.text
+      || !secret.numParts
+      || !secret.quorum
     ) {
       history.push(Routes.Edit, secret)
     }
-  }, [history, secret])
+  }, [history, parts, secret])
 
+  if (parts == null) return null
 
   return (
     <React.Fragment>
@@ -44,6 +67,9 @@ export default function PrintSecret() {
         Edit
       </Link>
 
+      {parts.map((part) => (
+        <PartPage part={part} key={part.index} />
+      ))}
 
     </React.Fragment>
   )
