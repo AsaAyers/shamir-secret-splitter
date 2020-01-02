@@ -7,8 +7,7 @@ export const DEFAULT_QUORUM = 3
 
 
 export enum Routes {
-  Home = '/',
-  Edit = '/edit',
+  Edit = '/',
   Print = '/print',
   Assemble = '/assemble',
 }

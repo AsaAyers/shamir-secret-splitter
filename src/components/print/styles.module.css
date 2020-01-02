@@ -1,0 +1,13 @@
+
+.qr {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/*
+I don't know why ``@meaia print {`` doesn't seem to be working.
+*/
+.noPrint {
+  display: none;
+  background: green;
+}

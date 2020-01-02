@@ -1,9 +1,11 @@
 import React from 'react'
 import { useLocation, useHistory, Link } from "react-router-dom";
-import PartPage from './part-page'
+import QRCode from 'qrcode.react'
+import { Routes } from '../../constants'
+import PartPage from '../part-page'
 import { Secret } from '../../types'
-import { Routes } from '../../constants';
 import { split } from '../../wrapper'
+import styles from './styles.module.css'
 
 export function useSecretFromLocation(): Secret | null {
   const location = useLocation()
@@ -58,17 +60,26 @@ export default function PrintSecret() {
 
   if (parts == null) return null
 
+  const pathname = Routes.Edit
   return (
     <React.Fragment>
-      <h1>Secret</h1>
+      <div className={styles.noPrint}>
+        <h1>Secret</h1>
 
-      <pre>{JSON.stringify(secret, null, 2)}</pre>
-      <Link to={{ pathname: Routes.Edit, state: secret }}>
-        Edit
+        <pre>{JSON.stringify(secret, null, 2)}</pre>
+        <Link to={{ pathname: Routes.Edit, state: secret }}>
+          Edit
       </Link>
 
+      </div>
       {parts.map((part) => (
-        <PartPage part={part} key={part.index} />
+        <PartPage part={part} key={part.index} >
+          <QRCode
+            renderAs="svg"
+            size={512}
+            value={JSON.stringify(pathname)}
+          />
+        </PartPage>
       ))}
 
     </React.Fragment>
