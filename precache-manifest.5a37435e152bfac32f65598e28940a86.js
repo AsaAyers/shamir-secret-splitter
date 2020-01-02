@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "665e4c48c26b67bbb6c2b1a14ca98477",
+    "revision": "d721000a8ec2ab2815f091f03688a03f",
     "url": "/shamir-secret-splitter/index.html"
   },
   {
