@@ -8,10 +8,6 @@ import styles from './styles.module.css'
 
 const defaultParts: Record<string, Part | MinimumPart> = {}
 
-defaultParts[1] = { index: 1, hex: "9cd7abd051be9f766af0a9" }
-defaultParts[3] = { index: 3, hex: "f2cfe26ecbf14c140c8656" }
-defaultParts[4] = { index: 4, hex: "cdd2a352f50591f0fdcf62" }
-
 export default function AssembleSecret() {
   const id = useHtmlId()
   const [secret, setSecret] = React.useState<null | string>(null)
