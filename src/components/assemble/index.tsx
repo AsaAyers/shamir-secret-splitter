@@ -1,10 +1,10 @@
 import React from 'react';
 import QrReader from 'react-qr-reader'
-import { MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from './constants'
-import { useHtmlId } from './hooks'
-import { Part, MinimumPart } from './types'
-import { join } from './wrapper'
-import styles from './assemble-secret.module.css'
+import { MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from '../../constants'
+import { useHtmlId } from '../../hooks'
+import { Part, MinimumPart } from '../../types'
+import { join } from '../../wrapper'
+import styles from './styles.module.css'
 
 const defaultParts: Record<string, Part | MinimumPart> = {}
 

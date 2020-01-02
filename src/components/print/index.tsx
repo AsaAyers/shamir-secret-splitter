@@ -1,9 +1,9 @@
 import React from 'react'
-import { Secret } from '../types'
 import { useLocation, useHistory, Link } from "react-router-dom";
 import PartPage from './part-page'
-import { Routes } from '../constants';
-import { split } from '../wrapper'
+import { Secret } from '../../types'
+import { Routes } from '../../constants';
+import { split } from '../../wrapper'
 
 export function useSecretFromLocation(): Secret | null {
   const location = useLocation()

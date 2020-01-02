@@ -1,9 +1,9 @@
 import React from 'react'
 import { useHistory } from "react-router-dom";
-import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS, DEFAULT_QUORUM } from './constants'
-import { useSecretFromLocation } from './print-secret'
-import { Secret } from './types'
-import { useHtmlId } from './hooks'
+import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS, DEFAULT_QUORUM } from '../../constants'
+import { useSecretFromLocation } from '../print'
+import { Secret } from '../../types'
+import { useHtmlId } from '../../hooks'
 
 
 const emptySecret: Secret = {

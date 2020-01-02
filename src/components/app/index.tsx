@@ -5,11 +5,11 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
-import { Routes } from './constants'
-import Home from './home'
-import NewSecret from './new-secret'
-import PrintSecret from './print-secret'
-import AssembleSecret from './assemble-secret'
+import { Routes } from '../../constants'
+import Home from '../home'
+import Edit from '../edit'
+import Print from '../print'
+import AssembleSecret from '../assemble'
 
 export default function App() {
   const location = useLocation()
@@ -33,10 +33,10 @@ export default function App() {
 
         <Switch>
           <Route path={Routes.Edit}>
-            <NewSecret />
+            <Edit />
           </Route>
           <Route path={Routes.Print}>
-            <PrintSecret />
+            <Print />
           </Route>
           <Route path={Routes.Assemble}>
             <AssembleSecret />

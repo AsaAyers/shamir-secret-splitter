@@ -1,5 +1,5 @@
 import React from 'react'
-import { Part } from '../types'
+import { Part } from '../../types'
 import styles from './part-page.module.css'
 import QRCode from 'qrcode.react'
 

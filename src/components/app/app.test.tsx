@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitForElement } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import { MemoryRouter as Router } from "react-router-dom";
-import App from './App';
+import App from '.';
 
 test('Can navigate from home to new', () => {
   const { getByText } = render(
