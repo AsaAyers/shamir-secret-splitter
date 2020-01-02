@@ -63,7 +63,7 @@ export default function PrintSecret() {
       <h1>Secret</h1>
 
       <pre>{JSON.stringify(secret, null, 2)}</pre>
-      <Link to={{ pathname: '/new', state: secret }}>
+      <Link to={{ pathname: Routes.Edit, state: secret }}>
         Edit
       </Link>
 

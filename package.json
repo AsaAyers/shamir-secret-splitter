@@ -12,8 +12,10 @@
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "gh-pages": "^2.1.1",
+    "qrcode.react": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-qr-reader": "^2.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "shamir": "^0.7.1",
@@ -43,6 +45,8 @@
     ]
   },
   "devDependencies": {
+    "@types/qrcode.react": "^1.0.0",
+    "@types/react-qr-reader": "^2.1.2",
     "@types/react-router-dom": "^5.1.3",
     "text-encoder": "0.0.4"
   }

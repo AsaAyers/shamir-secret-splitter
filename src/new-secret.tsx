@@ -33,11 +33,11 @@ export default function NewSecret() {
 
   const partsOptions: number[] = []
   const quorumOptions: number[] = []
-  for (let i = 1; i < MAX_PARTS; i++) {
+  for (let i = 1; i <= MAX_PARTS; i++) {
     if (i >= MIN_PARTS) {
       partsOptions.push(i)
     }
-    if (i < state.numParts) {
+    if (i <= state.numParts) {
       quorumOptions.push(i)
     }
   }

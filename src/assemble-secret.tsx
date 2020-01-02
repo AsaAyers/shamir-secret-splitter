@@ -1,8 +1,10 @@
 import React from 'react';
+import QrReader from 'react-qr-reader'
 import { MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from './constants'
 import { useHtmlId } from './hooks'
 import { Part, MinimumPart } from './types'
 import { join } from './wrapper'
+import styles from './assemble-secret.module.css'
 
 const defaultParts: Record<string, Part | MinimumPart> = {}
 
@@ -17,6 +19,7 @@ export default function AssembleSecret() {
   const handleChangeNumParts = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setNumParts(Number(e.target.value))
   }
+  const [scanning, setScanning] = React.useState(false)
 
   const [parts, setParts] = React.useState(defaultParts)
 
@@ -42,8 +45,32 @@ export default function AssembleSecret() {
     } catch (e) {
       console.error(e)
     }
+  }
 
+  const handleScanError = (err: any) => {
+    console.error(err)
+  }
+  const handleScan = (data: string | null) => {
+    console.log('scan', data)
+    if (data) {
+      try {
+        const part = JSON.parse(data)
 
+        if (part.hex && part.numParts && part.index) {
+          setNumParts(part.numParts)
+          setParts((parts) => {
+            return {
+              ...parts,
+              [part.index]: part
+            }
+          })
+        }
+
+      } catch (e) {
+
+      }
+
+    }
   }
 
   const partsOptions = new Array(MAX_PARTS - MIN_PARTS)
@@ -62,6 +89,18 @@ export default function AssembleSecret() {
   return (
     <form onSubmit={handleSubmit}>
       <h2>AssembleSecret</h2>
+
+      {scanning ? (
+        <QrReader
+          className={styles.reader}
+          delay={500}
+          onError={handleScanError}
+          onScan={handleScan}
+        />
+
+      ) : (
+          <button onClick={() => setScanning(true)}>Scan QR Codes</button>
+        )}
 
       <br />
       <label htmlFor={id('numParts')}>

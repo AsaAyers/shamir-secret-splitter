@@ -1,4 +1,13 @@
 
 .page {
   page-break-before: always;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+}
+
+.qr {
+  margin-left: auto;
+  margin-right: auto;
+
 }
