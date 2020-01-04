@@ -1,5 +1,7 @@
 import React from 'react'
-import { useLocation, useHistory, Link } from "react-router-dom";
+import {
+  useLocation, useHistory, Link
+} from "react-router-dom";
 import QRCode from 'qrcode.react'
 import { Routes } from '../../constants'
 import PartPage from '../part-page'
@@ -45,6 +47,7 @@ export default function PrintSecret() {
   const secret = useSecretFromLocation()
   const parts = useShamir(secret)
 
+
   React.useEffect(() => {
     if (
       parts == null
@@ -60,7 +63,6 @@ export default function PrintSecret() {
 
   if (parts == null) return null
 
-  const pathname = Routes.Edit
   return (
     <React.Fragment>
       <div className={styles.noPrint}>
@@ -72,15 +74,42 @@ export default function PrintSecret() {
       </Link>
 
       </div>
-      {parts.map((part) => (
-        <PartPage part={part} key={part.index} >
-          <QRCode
-            renderAs="svg"
-            size={512}
-            value={JSON.stringify(pathname)}
-          />
-        </PartPage>
-      ))}
+      {parts.map((part) => {
+
+        const search = new URLSearchParams()
+        search.set('index', String(part.index))
+        search.set('hex', part.hex)
+        search.set('numParts', String(part.numParts))
+        search.set('quorum', String(part.quorum))
+        search.set('label', String(part.label))
+
+
+        // const label = query.get('label')
+
+        console.log('search', search.toString())
+
+        const destination: any = {
+          pathname: Routes.Assemble,
+          search: search.toString(),
+        }
+
+        const href = window.location.protocol + '//' + window.location.host
+          + history.createHref(destination)
+
+
+        return (
+          <PartPage part={part} key={part.index} >
+            <Link to={destination}>
+              <QRCode
+                renderAs="svg"
+                size={512}
+                value={href}
+              />
+            </Link>
+          </PartPage>
+        )
+      }
+      )}
 
     </React.Fragment>
   )

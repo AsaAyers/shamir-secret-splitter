@@ -2,7 +2,7 @@ import React from 'react';
 import QrReader from 'react-qr-reader'
 import { useHistory } from 'react-router-dom'
 import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from '../../constants'
-import { useHtmlId, useQuery } from '../../hooks'
+import { useHtmlId, useQuery, useLocalStorage } from '../../hooks'
 import { Part, MinimumPart } from '../../types'
 import { join } from '../../wrapper'
 import styles from './styles.module.css'
@@ -84,18 +84,81 @@ function reducer(state: State, action: Action): State {
   return state
 }
 
-const initialState = {
+const initialState: State = {
   scanning: false,
   secret: null,
   numParts: DEFAULT_PARTS,
   parts: {},
 }
 
+function usePartParameters(callback: (p: Part) => void) {
+  const query = useQuery()
+
+  const index = Number(query.get('index'))
+  const hex = query.get('hex')
+  const numParts = Number(query.get('numParts'))
+  const label = query.get('label')
+  const quorum = Number(query.get('quorum'))
+  React.useEffect(() => {
+
+    console.log({
+
+      index,
+      hex,
+      numParts,
+      label,
+      quorum,
+
+    })
+
+    if (
+      !isNaN(index)
+      && index > 0
+      && hex
+      && !isNaN(numParts)
+      && numParts > 0
+      && !isNaN(quorum)
+      && quorum > 0
+      && label != null
+    ) {
+      const part: Part = {
+        index,
+        hex,
+        label,
+        numParts,
+        quorum
+      }
+      console.log('query part', part)
+      callback(part)
+    }
+  }, [callback, hex, index, label, numParts, quorum])
+}
+
 export default function AssembleSecret() {
   const id = useHtmlId()
-  const query = useQuery()
   const history = useHistory()
-  const [state, dispatch] = React.useReducer(reducer, initialState)
+
+  // I couldn't figure out the types to extract this into its own hook
+  /* useStorageReducer(key, reducer, initialState) */
+  const [storage, setStorage] = useLocalStorage('state', initialState)
+  const [state, dispatch] = React.useReducer(reducer, storage)
+  React.useEffect(() => {
+    if (storage !== state) {
+      setStorage(state)
+    } else {
+    }
+  }, [setStorage, state, storage])
+
+
+  const paramCB = React.useCallback((part) => {
+    dispatch({
+      type: 'setPart',
+      payload: part,
+    })
+    history.replace(Routes.Assemble)
+  }, [history])
+  usePartParameters(paramCB)
+
   const { secret, numParts, scanning, parts } = state
   const handleChangeNumParts = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({
@@ -103,22 +166,6 @@ export default function AssembleSecret() {
       payload: Number(e.target.value)
     })
   }
-
-  const qIndex = query.get('index')
-  const qHex = query.get('hex')
-  const qNumParts = query.get('numParts')
-  React.useEffect(() => {
-
-    if (qIndex && qHex && qNumParts) {
-      history.replace(Routes.Edit, {
-        index: qIndex,
-        hex: qHex,
-        numParts: qNumParts,
-      })
-
-    }
-
-  }, [history, qHex, qIndex, qNumParts])
 
   const handleChangeHex = (index: number, hex: string) => {
     const current = parts[index] ?? { index, hex: '' }
