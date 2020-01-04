@@ -30,12 +30,12 @@ type ActionsSetSecret = {
   payload: string,
 }
 
-type ActionScan = {
-  type: 'scan',
+type ActionStartScan = {
+  type: 'startScan',
 }
 
 type Action =
-  | ActionScan
+  | ActionStartScan
   | ActionSetNumParts
   | ActionsSetPart
   | ActionsSetSecret
@@ -44,7 +44,7 @@ const unreachable = (_n: never) => { }
 function reducer(state: State, action: Action): State {
 
   switch (action.type) {
-    case "scan":
+    case "startScan":
       return {
         ...state,
         scanning: true,
@@ -200,20 +200,11 @@ export default function AssembleSecret() {
   const handleScan = (data: string | null) => {
     console.log('scan', data)
     if (data) {
-      try {
-        const part = JSON.parse(data)
-
-        if (part.hex && part.numParts && part.index) {
-          dispatch({
-            type: 'setPart',
-            payload: part
-          })
-        }
-
-      } catch (e) {
-
+      const href = window.location.protocol + '//' + window.location.host
+        + history.createHref({ pathname: '/' })
+      if (data.indexOf(href) === 0) {
+        history.replace(data.replace(href, ''))
       }
-
     }
   }
 
@@ -243,7 +234,7 @@ export default function AssembleSecret() {
         />
 
       ) : (
-          <button onClick={() => dispatch({ type: 'scan' })}>Scan QR Codes</button>
+          <button onClick={() => dispatch({ type: 'startScan' })}>Scan QR Codes</button>
         )}
 
       <br />
