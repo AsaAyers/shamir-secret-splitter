@@ -1,11 +1,10 @@
 import React from 'react';
-import { render, fireEvent, waitForElement } from '@testing-library/react';
-import { useLocation, useHistory, Link } from "react-router-dom";
-import { act } from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
+import { useLocation, } from "react-router-dom";
 import { MemoryRouter as Router } from "react-router-dom";
-import App from '../App';
-import { Routes } from '../constants'
-import { Secret } from '../types';
+import App from '../app';
+import { Routes } from '../../constants'
+import { Secret } from '../../types';
 
 function TestPathname() {
   const location = useLocation()
