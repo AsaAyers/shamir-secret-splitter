@@ -9,6 +9,10 @@ import { join } from '../../wrapper'
 import styles from './styles.module.css'
 import PartInput from '../part-input'
 
+function notEmpty<T>(item: T | null | undefined): item is T {
+  return item != null
+}
+
 type State = {
   numParts: number,
   parts: Record<string, Part | MinimumPart>
@@ -39,11 +43,22 @@ function reducer(state: State, action: Action): State {
         parts: {},
       }
     case "setPart": {
-      const part = action.payload
+      let part = action.payload
       const numParts = 'numParts' in part ? part.numParts : state.numParts
       let parts = state.parts
       if (numParts !== state.numParts) {
         parts = {}
+      }
+
+      if (part.hex.trim() === '') {
+        // Clone parts so I don't mutate the original object
+        parts = { ...parts }
+        delete parts[part.index]
+        return {
+          ...state,
+          parts,
+          numParts,
+        }
       }
 
       return {
@@ -150,8 +165,10 @@ export default function AssembleSecret() {
     })
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = React.useCallback((e?: React.FormEvent<HTMLFormElement>) => {
+    if (e) {
+      e.preventDefault()
+    }
 
     try {
       const secret = join(
@@ -161,9 +178,33 @@ export default function AssembleSecret() {
     } catch (e) {
       console.error(e)
     }
-  }
+  }, [parts])
 
   console.log('parts', state.parts)
+  React.useEffect(() => {
+    const parts = Object.values(state.parts)
+      .filter(notEmpty)
+
+
+    const done = parts.every(p => (
+      'label' in p
+      && 'label' in parts[0]
+      && p.label === parts[0].label
+      && p.numParts === parts[0].numParts
+      && p.quorum === parts[0].quorum
+
+    ))
+
+    if (
+      parts[0]
+      && 'quorum' in parts[0]
+      && parts.length === parts[0].quorum
+      && done
+    ) {
+      handleSubmit()
+    }
+
+  }, [handleSubmit, state.parts])
 
   const handleScanError = (err: any) => {
     console.error(err)
