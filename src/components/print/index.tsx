@@ -8,6 +8,7 @@ import PartPage from '../part-page'
 import { Secret } from '../../types'
 import { split } from '../../wrapper'
 import styles from './styles.module.css'
+import { Button } from '@material-ui/core';
 
 export function useSecretFromLocation(): Secret | null {
   const location = useLocation()
@@ -66,7 +67,6 @@ export default function PrintSecret() {
   return (
     <React.Fragment>
       <div className={styles.noPrint}>
-        <h1>Secret</h1>
 
         <p>
           Thew following pages contain your secret.
@@ -76,9 +76,14 @@ export default function PrintSecret() {
         </p>
 
         <Link to={{ pathname: Routes.Edit, state: secret }}>
-          Edit
+          <Button variant="outlined">
+            Edit
+          </Button>
         </Link>
 
+        <Button onClick={() => window.print()} variant="outlined">
+          Print
+        </Button>
       </div>
       {parts.map((part) => {
 
