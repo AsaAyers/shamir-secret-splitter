@@ -67,47 +67,42 @@ const initialState: State = {
   parts: {},
 }
 
-function usePartParameters(callback: (p: Part) => void) {
-  const query = useQuery()
-
+function queryToPart(query: URLSearchParams): Part | null {
   const index = Number(query.get('index'))
   const hex = query.get('hex')
   const numParts = Number(query.get('numParts'))
   const label = query.get('label')
   const quorum = Number(query.get('quorum'))
-  React.useEffect(() => {
-
-    console.log({
-
+  if (
+    !isNaN(index)
+    && index > 0
+    && hex
+    && !isNaN(numParts)
+    && numParts > 0
+    && !isNaN(quorum)
+    && quorum > 0
+    && label != null
+  ) {
+    const part: Part = {
       index,
       hex,
-      numParts,
       label,
-      quorum,
+      numParts,
+      quorum
+    }
+    return part
+  }
+  return null
+}
 
-    })
-
-    if (
-      !isNaN(index)
-      && index > 0
-      && hex
-      && !isNaN(numParts)
-      && numParts > 0
-      && !isNaN(quorum)
-      && quorum > 0
-      && label != null
-    ) {
-      const part: Part = {
-        index,
-        hex,
-        label,
-        numParts,
-        quorum
-      }
-      console.log('query part', part)
+function usePartParameters(callback: (p: Part) => void) {
+  const query = useQuery()
+  const part = queryToPart(query)
+  React.useEffect(() => {
+    if (part != null) {
       callback(part)
     }
-  }, [callback, hex, index, label, numParts, quorum])
+  }, [callback, part])
 }
 
 export default function AssembleSecret() {
@@ -168,16 +163,25 @@ export default function AssembleSecret() {
     }
   }
 
+  console.log('parts', state.parts)
+
   const handleScanError = (err: any) => {
     console.error(err)
   }
   const handleScan = (data: string | null) => {
     console.log('scan', data)
     if (data) {
-      const href = window.location.protocol + '//' + window.location.host
-        + history.createHref({ pathname: '/' })
-      if (data.indexOf(href) === 0) {
-        history.replace(data.replace(href, ''))
+      try {
+        const url = new URL(data)
+        const part = queryToPart(url.searchParams)
+
+        if (part != null) {
+          dispatch({
+            type: 'setPart',
+            payload: part
+          })
+        }
+      } catch (e) {
       }
     }
   }
@@ -208,12 +212,15 @@ export default function AssembleSecret() {
     <form onSubmit={handleSubmit}>
       <Paper className={styles.assemble}>
         {scanning ? (
-          <QrReader
-            className={styles.reader}
-            delay={500}
-            onError={handleScanError}
-            onScan={handleScan}
-          />
+          <React.Fragment>
+            <QrReader
+              className={styles.reader}
+              delay={500}
+              onError={handleScanError}
+              onScan={handleScan}
+            />
+            <Button variant="outlined" onClick={() => setScanning(false)}>Stop Scanning</Button>
+          </React.Fragment>
         ) : (
             <Button variant="outlined" onClick={() => setScanning(true)}>Scan QR Codes</Button>
           )}
@@ -235,13 +242,6 @@ export default function AssembleSecret() {
         <Button type="submit" color="primary" variant="outlined">
           Done
         </Button>
-
-        {secret && (
-          <div>
-            Secret: {secret}
-          </div>
-        )}
-
       </Paper>
     </form>
   )
