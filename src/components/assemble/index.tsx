@@ -1,13 +1,19 @@
 import React from 'react';
 import QrReader from 'react-qr-reader'
 import { useHistory } from 'react-router-dom'
-import { Paper, TextField, MenuItem, Button } from '@material-ui/core';
+import { Card, CardContent, CardActions, TextField, MenuItem, Button, makeStyles } from '@material-ui/core';
 import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from '../../constants'
 import { useQuery, useLocalStorage } from '../../hooks'
 import { Part, MinimumPart } from '../../types'
 import { join } from '../../wrapper'
-import styles from './styles.module.css'
 import PartInput from '../part-input'
+
+const useStyles = makeStyles({
+  cardContent: {
+    display: 'flex',
+    flexDirection: 'column',
+  }
+})
 
 function notEmpty<T>(item: T | null | undefined): item is T {
   return item != null
@@ -121,6 +127,7 @@ function usePartParameters(callback: (p: Part) => void) {
 }
 
 export default function AssembleSecret() {
+  const classes = useStyles()
   const history = useHistory()
   const [scanning, setScanning] = React.useState(false)
   const [secret, setSecret] = React.useState<null | string>(null)
@@ -240,48 +247,53 @@ export default function AssembleSecret() {
   if (secret) {
 
     return (
-      <Paper className={styles.assemble}>
-        {secret}
-      </Paper>
+      <Card>
+        <CardContent>
+          {secret}
+        </CardContent>
+      </Card>
     )
 
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <Paper className={styles.assemble}>
-        {scanning ? (
-          <React.Fragment>
-            <QrReader
-              className={styles.reader}
-              delay={500}
-              onError={handleScanError}
-              onScan={handleScan}
-            />
-            <Button variant="outlined" onClick={() => setScanning(false)}>Stop Scanning</Button>
-          </React.Fragment>
-        ) : (
-            <Button variant="outlined" onClick={() => setScanning(true)}>Scan QR Codes</Button>
-          )}
+      <Card>
+        <CardContent className={classes.cardContent}>
+          {scanning ? (
+            <React.Fragment>
+              <QrReader
+                delay={500}
+                onError={handleScanError}
+                onScan={handleScan}
+              />
+              <Button variant="outlined" onClick={() => setScanning(false)}>Stop Scanning</Button>
+            </React.Fragment>
+          ) : (
+              <Button variant="outlined" onClick={() => setScanning(true)}>Scan QR Codes</Button>
+            )}
 
-        <br />
+          <br />
 
-        <TextField
-          name="numParts"
-          select
-          label="Parts"
-          value={numParts}
-          onChange={handleChangeNumParts}
-        >
-          {partsOptions}
-        </TextField>
+          <TextField
+            name="numParts"
+            select
+            label="Parts"
+            value={numParts}
+            onChange={handleChangeNumParts}
+          >
+            {partsOptions}
+          </TextField>
 
-        {partInputs}
+          {partInputs}
 
-        <Button type="submit" color="primary" variant="outlined">
-          Done
-        </Button>
-      </Paper>
+        </CardContent>
+        <CardActions>
+          <Button type="submit" color="primary" variant="outlined">
+            Done
+          </Button>
+        </CardActions>
+      </Card>
     </form>
   )
 }

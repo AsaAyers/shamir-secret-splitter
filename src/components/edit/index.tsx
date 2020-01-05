@@ -1,10 +1,19 @@
 import React from 'react'
-import { Paper, TextField, MenuItem, Button } from '@material-ui/core';
+import { Card, CardContent, CardActions, TextField, Button, makeStyles, Typography } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS, DEFAULT_QUORUM } from '../../constants'
 import { useSecretFromLocation } from '../print'
 import { Secret } from '../../types'
-import styles from './styles.module.css'
+
+const useStyles = makeStyles({
+  title: {
+    fontSize: 14,
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+  }
+})
 
 const emptySecret: Secret = {
   label: "",
@@ -15,6 +24,7 @@ const emptySecret: Secret = {
 
 
 export default function NewSecret() {
+  const classes = useStyles()
   const history = useHistory()
   const defaultState = useSecretFromLocation() || emptySecret
 
@@ -43,61 +53,74 @@ export default function NewSecret() {
 
   return (
     <form onSubmit={handleSubmit} >
-      <Paper className={styles.form}>
-        <TextField
-          onChange={handleChange}
-          value={state.label}
-          id="label"
-          name="label"
-          label="Label" />
+      <Card>
+        <CardContent className={classes.content}>
+          <Typography className={classes.title} color="textSecondary" gutterBottom>
+            Create Secret
+          </Typography>
 
-        <TextField
-          multiline={true}
-          label="Secret Text"
-          id="secret-text"
-          onChange={handleChange}
-          value={state.text}
-          name="text" />
+          <TextField
+            onChange={handleChange}
+            value={state.label}
+            id="label"
+            name="label"
+            label="Label" />
+
+          <TextField
+            multiline={true}
+            label="Secret Text"
+            id="secret-text"
+            onChange={handleChange}
+            value={state.text}
+            name="text" />
 
 
-        <TextField
-          name="quorum"
-          select
-          SelectProps={{
-            native: true
-          }}
-          id="quorum"
-          data-testid="quorum"
-          label="quorum"
-          value={state.quorum}
-          onChange={handleChange}
-        >
-          {quorumOptions.map((n) => (
-            <option key={n} value={n}>{n}</option>
-          ))}
-        </TextField>
+          <TextField
+            name="quorum"
+            select
+            SelectProps={{
+              native: true
+            }}
+            id="quorum"
+            data-testid="quorum"
+            label="quorum"
+            value={state.quorum}
+            onChange={handleChange}
+          >
+            {quorumOptions.map((n) => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+          </TextField>
 
-        <TextField
-          name="numParts"
-          select
-          label="Parts"
-          id="parts"
-          SelectProps={{
-            native: true
-          }}
-          data-testid="parts"
-          value={state.numParts}
-          onChange={handleChange}
-        >
-          {partsOptions.map((n) => (
-            <option key={n} value={n}>{n}</option>
-          ))}
-        </TextField>
+          <TextField
+            name="numParts"
+            select
+            label="Parts"
+            id="parts"
+            SelectProps={{
+              native: true
+            }}
+            data-testid="parts"
+            value={state.numParts}
+            onChange={handleChange}
+          >
+            {partsOptions.map((n) => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+          </TextField>
 
-        <Button type="submit" color="primary" variant="outlined">
-          Done
-        </Button>
-      </Paper>
-    </form>
+          <p>
+            In order to reassemble your secret, you will need {state.quorum} out
+            of {state.numParts} pieces. Your label will be printed at the top of
+            each page.
+          </p>
+        </CardContent>
+        <CardActions>
+          <Button type="submit" color="primary" variant="outlined">
+            Done
+          </Button>
+        </CardActions>
+      </Card>
+    </form >
   )
 }
