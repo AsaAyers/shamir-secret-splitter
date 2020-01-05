@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://AsaAyers.github.io/shamir-secret-splitter",
   "dependencies": {
+    "@material-ui/core": "^4.8.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
@@ -19,6 +20,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "shamir": "^0.7.1",
+    "typeface-roboto": "0.0.75",
     "typescript": "^3.7.4"
   },
   "scripts": {

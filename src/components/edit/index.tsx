@@ -1,9 +1,11 @@
 import React from 'react'
+import { Paper, TextField, MenuItem, Button } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS, DEFAULT_QUORUM } from '../../constants'
 import { useSecretFromLocation } from '../print'
 import { Secret } from '../../types'
 import { useHtmlId } from '../../hooks'
+import styles from './styles.module.css'
 
 
 const emptySecret: Secret = {
@@ -37,60 +39,56 @@ export default function NewSecret() {
     if (i >= MIN_PARTS) {
       partsOptions.push(i)
     }
-    if (i <= state.numParts) {
+    if (i < state.numParts) {
       quorumOptions.push(i)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>NewSecret</h2>
+    <form onSubmit={handleSubmit} >
+      <Paper className={styles.form}>
+        <TextField
+          onChange={handleChange}
+          value={state.label}
+          name="label"
+          label="Label" />
 
-      <label htmlFor={id('label')}>
-        Label
-      </label>
-      <input
-        onChange={handleChange}
-        value={state.label}
-        name="label"
-        id={id('label')} />
+        <TextField
+          multiline={true}
+          label="Secret Text"
+          onChange={handleChange}
+          value={state.text}
+          name="text" />
 
-      <br />
 
-      <label htmlFor={id('text')}>
-        Secret Text
-      </label>
-      <textarea
-        onChange={handleChange}
-        value={state.text}
-        name="text"
-        id={id('text')} />
+        <TextField
+          name="quorum"
+          select
+          label="Quorum"
+          value={state.quorum}
+          onChange={handleChange}
+        >
+          {quorumOptions.map((n) => (
+            <MenuItem key={n} value={n}>{n}</MenuItem>
+          ))}
+        </TextField>
 
-      <br />
+        <TextField
+          name="numParts"
+          select
+          label="Parts"
+          value={state.numParts}
+          onChange={handleChange}
+        >
+          {partsOptions.map((n) => (
+            <MenuItem key={n} value={n}>{n}</MenuItem>
+          ))}
+        </TextField>
 
-      <label htmlFor={id('quorum')}>
-        quorum
-      </label>
-      <select name="quorum" id={id('quorum')} value={state.quorum} onChange={handleChange}>
-        {quorumOptions.map((n) => (
-          <option key={n} value={n}>{n}</option>
-        ))}
-      </select>
-
-      <br />
-      <label htmlFor={id('numParts')}>
-        Parts
-      </label>
-      <select name="numParts" id={id('numParts')} value={state.numParts} onChange={handleChange}>
-        {partsOptions.map((n) => (
-          <option key={n} value={n}>{n}</option>
-        ))}
-      </select>
-
-      <br />
-      <button type="submit">
-        Done
-      </button>
+        <Button type="submit" color="primary" variant="outlined">
+          Done
+      </Button>
+      </Paper>
     </form>
   )
 }
