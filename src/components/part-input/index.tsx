@@ -6,7 +6,7 @@ import { useHtmlId } from '../../hooks';
 
 type Props = {
   part?: MinimumPart | Part,
-  onChange: (index: number, hex: string) => void,
+  onChange?: (index: number, hex: string) => void,
   index: number,
 }
 
@@ -57,9 +57,10 @@ export default function PartInput({ part, onChange, index }: Props) {
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!onChange) { return }
+
     const value = e.target.value
-    const tmp = dispatch(value)
-    console.log(tmp)
+    dispatch(value)
     const newHex = wordsToHex(value)
 
     if (typeof newHex === 'string' && newHex !== hex) {
