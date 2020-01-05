@@ -21,12 +21,10 @@ export default function NewSecret() {
   const [state, setState] = React.useState<Secret>(defaultState)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    console.log('handleChange', e.target.name, e.target.value)
     const update = { [e.target.name]: e.target.value }
     setState((state) => Object.assign({}, state, update))
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('handleSubmit', state)
     e.preventDefault()
     history.push(Routes.Print, state)
 

@@ -180,7 +180,6 @@ export default function AssembleSecret() {
     }
   }, [parts])
 
-  console.log('parts', state.parts)
   React.useEffect(() => {
     const parts = Object.values(state.parts)
       .filter(notEmpty)
@@ -210,7 +209,6 @@ export default function AssembleSecret() {
     console.error(err)
   }
   const handleScan = (data: string | null) => {
-    console.log('scan', data)
     if (data) {
       try {
         const url = new URL(data)
@@ -236,7 +234,7 @@ export default function AssembleSecret() {
   const partInputs: JSX.Element[] = []
   for (let i = 1; i <= numParts; i++) {
     partInputs.push(
-      <PartInput key={i} index={i} part={parts[i]} onChange={handleChangeHex} />
+      <PartInput key={`${i}/${numParts}`} index={i} part={parts[i]} onChange={handleChangeHex} />
     )
   }
   if (secret) {
