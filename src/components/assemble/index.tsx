@@ -9,8 +9,6 @@ import styles from './styles.module.css'
 import PartInput from '../part-input'
 
 type State = {
-  scanning: boolean,
-  secret: string | null,
   numParts: number,
   parts: Record<string, Part | MinimumPart>
 }
@@ -25,30 +23,14 @@ type ActionsSetPart = {
   payload: MinimumPart | Part,
 }
 
-type ActionsSetSecret = {
-  type: 'setSecret',
-  payload: string,
-}
-
-type ActionStartScan = {
-  type: 'startScan',
-}
-
 type Action =
-  | ActionStartScan
   | ActionSetNumParts
   | ActionsSetPart
-  | ActionsSetSecret
 
 const unreachable = (_n: never) => { }
 function reducer(state: State, action: Action): State {
 
   switch (action.type) {
-    case "startScan":
-      return {
-        ...state,
-        scanning: true,
-      }
     case "setNumParts":
       return {
         ...state,
@@ -72,11 +54,6 @@ function reducer(state: State, action: Action): State {
         numParts,
       }
     }
-    case "setSecret":
-      return {
-        ...state,
-        secret: action.payload,
-      }
     default:
       unreachable(action)
   }
@@ -85,8 +62,6 @@ function reducer(state: State, action: Action): State {
 }
 
 const initialState: State = {
-  scanning: false,
-  secret: null,
   numParts: DEFAULT_PARTS,
   parts: {},
 }
@@ -137,6 +112,8 @@ function usePartParameters(callback: (p: Part) => void) {
 export default function AssembleSecret() {
   const id = useHtmlId()
   const history = useHistory()
+  const [scanning, setScanning] = React.useState(false)
+  const [secret, setSecret] = React.useState<null | string>(null)
 
   // I couldn't figure out the types to extract this into its own hook
   /* useStorageReducer(key, reducer, initialState) */
@@ -159,7 +136,7 @@ export default function AssembleSecret() {
   }, [history])
   usePartParameters(paramCB)
 
-  const { secret, numParts, scanning, parts } = state
+  const { numParts, parts } = state
   const handleChangeNumParts = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({
       type: 'setNumParts',
@@ -185,10 +162,7 @@ export default function AssembleSecret() {
       const secret = join(
         Object.values(parts)
       )
-      dispatch({
-        type: 'setSecret',
-        payload: secret,
-      })
+      setSecret(secret)
     } catch (e) {
       console.error(e)
     }
@@ -234,7 +208,7 @@ export default function AssembleSecret() {
         />
 
       ) : (
-          <button onClick={() => dispatch({ type: 'startScan' })}>Scan QR Codes</button>
+          <button onClick={() => setScanning(true)}>Scan QR Codes</button>
         )}
 
       <br />
