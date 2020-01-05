@@ -29,13 +29,12 @@ test('wordsToHex', () => {
   `.replace(/\s+/g, ''))
 })
 
-test(`wordsToHex returns null if it can't find a word`, () => {
+test(`wordsToHex returns an object with the word it didn't find`, () => {
   expect(wordsToHex(`
     topmost Istanbul Pluto vagabond invalid
-  `)).toBe(null)
-
+  `)).toMatchObject({ word: 'invalid' })
 })
 
-test.only(`wordsToHex does not return null on an empty string`, () => {
+test(`wordsToHex does not return null on an empty string`, () => {
   expect(wordsToHex('')).toBe('')
 })

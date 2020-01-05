@@ -4,8 +4,6 @@ import { Routes } from '../../constants'
 import { useHistory, useLocation } from 'react-router-dom'
 import styles from './styles.module.css'
 
-console.log('nav', styles)
-
 export default function Nav() {
   const location = useLocation()
   const history = useHistory()

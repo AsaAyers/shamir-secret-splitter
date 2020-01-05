@@ -23,7 +23,8 @@ type ReverseWordList = [
 let reverseWordslist: ReverseWordList
 
 
-export function wordsToHex(input: string): string | null {
+type ErrorResult = { type: 'INVALID_WORD', word: string }
+export function wordsToHex(input: string): string | ErrorResult {
   if (reverseWordslist == null) {
     reverseWordslist = [{}, {}]
     for (let i = 0; i < wordlist.length; i++) {
@@ -45,10 +46,10 @@ export function wordsToHex(input: string): string | null {
 
     const tmp = reverseWordslist[i % 2][word]
     if (tmp == null) {
-      return null
+      return { type: 'INVALID_WORD', word }
     }
     values.push(tmp)
   }
 
-  return new Buffer(values).toString('hex').toUpperCase()
+  return Buffer.from(values).toString('hex').toUpperCase()
 }

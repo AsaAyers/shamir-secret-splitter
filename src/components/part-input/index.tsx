@@ -13,32 +13,32 @@ type Props = {
 type State = {
   hex: string,
   text: string,
-  error: boolean,
+  error: null | string,
 }
 
-const initialState = {
+const initialState: State = {
   hex: '',
   text: '',
-  error: false,
+  error: null,
 }
 
 
-function reducer(state: State, text: string) {
+function reducer(state: State, text: string): State {
   let hex = wordsToHex(text)
-  if (hex == null) {
-    const tmp = text.split(/\s*/g)
+  if (typeof hex !== 'string') {
+    const tmp = text.split(/\s+/g)
     tmp.pop()
     hex = wordsToHex(tmp.join(' '))
   }
 
-  if (hex != null) {
-    return { hex, text, error: false, }
+  if (typeof hex == 'string') {
+    return { hex, text, error: null, }
   }
 
   return {
     ...state,
     text,
-    error: true
+    error: `${hex.word} not recognized`
   }
 }
 
@@ -46,17 +46,24 @@ export default function PartInput({ part, onChange, index }: Props) {
   const id = useHtmlId()
   const hex = part?.hex ?? ""
   const [state, dispatch] = React.useReducer(reducer, initialState, (state) => {
-    state.text = hexToWords(hex).join(' ')
+    const result = hexToWords(hex).join(' ')
+    if (typeof result === 'string') {
+      return {
+        ...state,
+        text: result
+      }
+    }
     return state
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    dispatch(value)
-    const hex = wordsToHex(value)
+    const tmp = dispatch(value)
+    console.log(tmp)
+    const newHex = wordsToHex(value)
 
-    if (hex) {
-      onChange(index, hex)
+    if (typeof newHex === 'string' && newHex !== hex) {
+      onChange(index, newHex)
     }
   }
 
@@ -65,7 +72,8 @@ export default function PartInput({ part, onChange, index }: Props) {
       onChange={handleChange}
       multiline
       id={id(`part-${index}`)}
-      error={state.error}
+      error={state.error != null}
+      helperText={state.error}
       value={state.text}
       name="label"
       label={`Part ${index}`} />
