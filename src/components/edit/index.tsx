@@ -4,9 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS, DEFAULT_QUORUM } from '../../constants'
 import { useSecretFromLocation } from '../print'
 import { Secret } from '../../types'
-import { useHtmlId } from '../../hooks'
 import styles from './styles.module.css'
-
 
 const emptySecret: Secret = {
   label: "",
@@ -18,7 +16,6 @@ const emptySecret: Secret = {
 
 export default function NewSecret() {
   const history = useHistory()
-  const id = useHtmlId()
   const defaultState = useSecretFromLocation() || emptySecret
 
   const [state, setState] = React.useState<Secret>(defaultState)
@@ -87,7 +84,7 @@ export default function NewSecret() {
 
         <Button type="submit" color="primary" variant="outlined">
           Done
-      </Button>
+        </Button>
       </Paper>
     </form>
   )

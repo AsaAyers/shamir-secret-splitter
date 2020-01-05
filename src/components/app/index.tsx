@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
+import { CssBaseline, Container } from '@material-ui/core';
 import { Routes } from '../../constants'
 import Edit from '../edit'
 import Print from '../print'
@@ -11,7 +12,8 @@ import Nav from '../nav'
 
 export default function App() {
   return (
-    <React.Fragment>
+    <Container maxWidth="sm">
+      <CssBaseline />
       <Nav />
       <Switch>
         <Route path={Routes.Print}>
@@ -24,6 +26,6 @@ export default function App() {
           <Edit />
         </Route>
       </Switch>
-    </React.Fragment>
+    </Container>
   );
 }

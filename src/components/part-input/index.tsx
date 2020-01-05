@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHtmlId } from '../../hooks'
+import { TextField } from '@material-ui/core';
 import { Part, MinimumPart } from '../../types'
 
 type Props = {
@@ -9,26 +9,17 @@ type Props = {
 }
 
 export default function PartInput({ part, onChange, index }: Props) {
-  const id = useHtmlId()
-
   const hex = part?.hex ?? ""
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(index, e.target.value)
   }
 
   return (
-    <div>
-      <label htmlFor={id('hex')}>
-        Part {index}
-      </label>
-      <input
-        onChange={handleChange}
-        value={hex}
-        name="hex"
-        id={id('hex')} />
-
-
-    </div>
+    <TextField
+      onChange={handleChange}
+      value={hex}
+      name="label"
+      label={`Part ${index}`} />
   )
 
 }

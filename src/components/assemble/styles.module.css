@@ -1,4 +1,5 @@
-
-.reader {
-  width: 50%;
+.assemble {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
 }

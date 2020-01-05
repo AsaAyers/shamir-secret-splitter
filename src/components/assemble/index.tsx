@@ -1,8 +1,9 @@
 import React from 'react';
 import QrReader from 'react-qr-reader'
 import { useHistory } from 'react-router-dom'
+import { Paper, TextField, MenuItem, Button } from '@material-ui/core';
 import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from '../../constants'
-import { useHtmlId, useQuery, useLocalStorage } from '../../hooks'
+import { useQuery, useLocalStorage } from '../../hooks'
 import { Part, MinimumPart } from '../../types'
 import { join } from '../../wrapper'
 import styles from './styles.module.css'
@@ -110,7 +111,6 @@ function usePartParameters(callback: (p: Part) => void) {
 }
 
 export default function AssembleSecret() {
-  const id = useHtmlId()
   const history = useHistory()
   const [scanning, setScanning] = React.useState(false)
   const [secret, setSecret] = React.useState<null | string>(null)
@@ -137,7 +137,7 @@ export default function AssembleSecret() {
   usePartParameters(paramCB)
 
   const { numParts, parts } = state
-  const handleChangeNumParts = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeNumParts = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     dispatch({
       type: 'setNumParts',
       payload: Number(e.target.value)
@@ -185,7 +185,7 @@ export default function AssembleSecret() {
   const partsOptions = new Array(MAX_PARTS - MIN_PARTS)
     .fill(0)
     .map((_n, index) => (
-      <option key={index} value={index + MIN_PARTS}>{index + MIN_PARTS}</option>
+      <MenuItem key={index} value={index + MIN_PARTS}>{index + MIN_PARTS}</MenuItem>
     ))
 
   const partInputs: JSX.Element[] = []
@@ -194,43 +194,55 @@ export default function AssembleSecret() {
       <PartInput key={i} index={i} part={parts[i]} onChange={handleChangeHex} />
     )
   }
+  if (secret) {
+
+    return (
+      <Paper className={styles.assemble}>
+        {secret}
+      </Paper>
+    )
+
+  }
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>AssembleSecret</h2>
+      <Paper className={styles.assemble}>
+        {scanning ? (
+          <QrReader
+            className={styles.reader}
+            delay={500}
+            onError={handleScanError}
+            onScan={handleScan}
+          />
+        ) : (
+            <Button variant="outlined" onClick={() => setScanning(true)}>Scan QR Codes</Button>
+          )}
 
-      {scanning ? (
-        <QrReader
-          className={styles.reader}
-          delay={500}
-          onError={handleScanError}
-          onScan={handleScan}
-        />
+        <br />
 
-      ) : (
-          <button onClick={() => setScanning(true)}>Scan QR Codes</button>
+        <TextField
+          name="numParts"
+          select
+          label="Parts"
+          value={numParts}
+          onChange={handleChangeNumParts}
+        >
+          {partsOptions}
+        </TextField>
+
+        {partInputs}
+
+        <Button type="submit" color="primary" variant="outlined">
+          Done
+        </Button>
+
+        {secret && (
+          <div>
+            Secret: {secret}
+          </div>
         )}
 
-      <br />
-      <label htmlFor={id('numParts')}>
-        Parts
-      </label>
-      <select name="numParts" id={id('numParts')} value={numParts} onChange={handleChangeNumParts}>
-        {partsOptions}
-      </select>
-
-      {partInputs}
-
-      <button type="submit">
-        Done
-      </button>
-
-      {secret && (
-        <div>
-          Secret: {secret}
-        </div>
-      )}
-
+      </Paper>
     </form>
   )
 }
