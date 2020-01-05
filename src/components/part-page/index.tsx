@@ -22,12 +22,10 @@ export default function PartPage({ part, children }: Props) {
       <p>
         If the QR code doesn't scan, you can type in the following:
       </p>
-      <div>
-        <PartInput part={part}
-          onChange={() => { }}
-          index={part.index}
-        />
-      </div>
+      <PartInput part={part}
+        onChange={() => { }}
+        index={part.index}
+      />
     </div>
   )
 }

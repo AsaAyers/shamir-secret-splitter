@@ -1,3 +1,7 @@
+.print {
+  display: flex;
+  flex-direction: column;
+}
 
 .qr {
   margin-left: auto;

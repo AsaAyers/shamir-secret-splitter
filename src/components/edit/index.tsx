@@ -21,10 +21,12 @@ export default function NewSecret() {
   const [state, setState] = React.useState<Secret>(defaultState)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    console.log('handleChange', e.target.name, e.target.value)
     const update = { [e.target.name]: e.target.value }
     setState((state) => Object.assign({}, state, update))
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('handleSubmit', state)
     e.preventDefault()
     history.push(Routes.Print, state)
 
@@ -47,12 +49,14 @@ export default function NewSecret() {
         <TextField
           onChange={handleChange}
           value={state.label}
+          id="label"
           name="label"
           label="Label" />
 
         <TextField
           multiline={true}
           label="Secret Text"
+          id="secret-text"
           onChange={handleChange}
           value={state.text}
           name="text" />
@@ -61,12 +65,17 @@ export default function NewSecret() {
         <TextField
           name="quorum"
           select
-          label="Quorum"
+          SelectProps={{
+            native: true
+          }}
+          id="quorum"
+          data-testid="quorum"
+          label="quorum"
           value={state.quorum}
           onChange={handleChange}
         >
           {quorumOptions.map((n) => (
-            <MenuItem key={n} value={n}>{n}</MenuItem>
+            <option key={n} value={n}>{n}</option>
           ))}
         </TextField>
 
@@ -74,11 +83,16 @@ export default function NewSecret() {
           name="numParts"
           select
           label="Parts"
+          id="parts"
+          SelectProps={{
+            native: true
+          }}
+          data-testid="parts"
           value={state.numParts}
           onChange={handleChange}
         >
           {partsOptions.map((n) => (
-            <MenuItem key={n} value={n}>{n}</MenuItem>
+            <option key={n} value={n}>{n}</option>
           ))}
         </TextField>
 

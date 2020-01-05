@@ -61,17 +61,23 @@ export default function PrintSecret() {
     }
   }, [history, parts, secret])
 
-  if (parts == null) return null
+  if (parts == null || secret == null) return null
 
   return (
     <React.Fragment>
       <div className={styles.noPrint}>
         <h1>Secret</h1>
 
-        <pre>{JSON.stringify(secret, null, 2)}</pre>
+        <p>
+          Thew following pages contain your secret.
+          Print them and distribute them to different locations.
+          From the Assemble Secret page, if you scan any {secret.quorum}
+          of these codes, it will display your secret.
+        </p>
+
         <Link to={{ pathname: Routes.Edit, state: secret }}>
           Edit
-      </Link>
+        </Link>
 
       </div>
       {parts.map((part) => {
@@ -82,11 +88,6 @@ export default function PrintSecret() {
         search.set('numParts', String(part.numParts))
         search.set('quorum', String(part.quorum))
         search.set('label', String(part.label))
-
-
-        // const label = query.get('label')
-
-        console.log('search', search.toString())
 
         const destination: any = {
           pathname: Routes.Assemble,

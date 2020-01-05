@@ -13,13 +13,21 @@ export default function Nav() {
   const handleChange = (event: any, pathname: string) => {
     history.push(pathname)
   }
+  let tabValue = Routes.Edit
+  switch (location.pathname) {
+    case Routes.Assemble:
+      tabValue = Routes.Assemble
+      break;
+    case Routes.Edit:
+    case Routes.Print:
+    default:
+      tabValue = Routes.Edit
+  }
+
 
   return (
     <nav className={styles.nav}>
-      <Tabs
-        value={location.pathname}
-        onChange={handleChange}
-      >
+      <Tabs value={tabValue} onChange={handleChange} >
         <Tab value={Routes.Edit} label="New Secret" />
         <Tab value={Routes.Assemble} label="Assemble Secret" />
       </Tabs>
