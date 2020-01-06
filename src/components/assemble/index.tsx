@@ -1,12 +1,16 @@
 import React from 'react';
 import QrReader from 'react-qr-reader'
 import { useHistory } from 'react-router-dom'
+import classnames from 'classnames'
 import { Card, CardContent, CardActions, TextField, MenuItem, Button, makeStyles } from '@material-ui/core';
 import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from '../../constants'
 import { useQuery, useLocalStorage } from '../../hooks'
 import { Part, MinimumPart } from '../../types'
 import { join } from '../../wrapper'
 import PartInput from '../part-input'
+import styles from './styles.module.css'
+// https://www.partnersinrhyme.com/soundfx/PUBLIC-DOMAIN-SOUNDS/beep_sounds/beep_beep-pure_wav.shtml
+import mp3 from './BEEPPURE.mp3'
 
 const useStyles = makeStyles({
   cardContent: {
@@ -22,6 +26,7 @@ function notEmpty<T>(item: T | null | undefined): item is T {
 type State = {
   numParts: number,
   parts: Record<string, Part | MinimumPart>
+  scanIndex: undefined | number
 }
 
 type ActionSetNumParts = {
@@ -32,11 +37,18 @@ type ActionSetNumParts = {
 type ActionsSetPart = {
   type: 'setPart',
   payload: MinimumPart | Part,
+  meta?: { scan: number }
+}
+
+type ActionClearScan = {
+  type: 'clearScan',
+  payload: State['scanIndex'],
 }
 
 type Action =
   | ActionSetNumParts
   | ActionsSetPart
+  | ActionClearScan
 
 const unreachable = (_n: never) => { }
 function reducer(state: State, action: Action): State {
@@ -67,6 +79,7 @@ function reducer(state: State, action: Action): State {
         }
       }
 
+      let scanIndex = (action.meta?.scan || state.scanIndex)
       return {
         ...state,
         parts: {
@@ -74,7 +87,17 @@ function reducer(state: State, action: Action): State {
           [part.index]: part
         },
         numParts,
+        scanIndex,
       }
+    }
+    case 'clearScan': {
+      if (state.scanIndex === action.payload) {
+        return {
+          ...state,
+          scanIndex: undefined
+        }
+      }
+      return state
     }
     default:
       unreachable(action)
@@ -86,6 +109,7 @@ function reducer(state: State, action: Action): State {
 const initialState: State = {
   numParts: DEFAULT_PARTS,
   parts: {},
+  scanIndex: undefined,
 }
 
 function queryToPart(query: URLSearchParams): Part | null {
@@ -131,6 +155,7 @@ export default function AssembleSecret() {
   const history = useHistory()
   const [scanning, setScanning] = React.useState(false)
   const [secret, setSecret] = React.useState<null | string>(null)
+  var beep = React.useMemo(() => new Audio(mp3), [])
 
   // I couldn't figure out the types to extract this into its own hook
   /* useStorageReducer(key, reducer, initialState) */
@@ -222,15 +247,37 @@ export default function AssembleSecret() {
         const part = queryToPart(url.searchParams)
 
         if (part != null) {
+          const scan = Math.random()
           dispatch({
             type: 'setPart',
-            payload: part
+            payload: part,
+            meta: { scan }
           })
+          setTimeout(() => {
+            dispatch({ type: 'clearScan', payload: scan })
+          }, 1000)
         }
       } catch (e) {
       }
     }
   }
+
+  React.useEffect(() => {
+    if (state.scanIndex != null) {
+
+      try {
+        window.navigator.vibrate(200);
+      } catch (e) {
+        console.error(e)
+      }
+      try {
+        beep.play();
+      } catch (e) {
+        console.error(e)
+      }
+
+    }
+  }, [beep, state.scanIndex])
 
   const partsOptions = new Array(MAX_PARTS - MIN_PARTS)
     .fill(0)
@@ -259,14 +306,20 @@ export default function AssembleSecret() {
   return (
     <form onSubmit={handleSubmit}>
       <Card>
-        <CardContent className={classes.cardContent}>
+        <CardContent className={classnames(classes.cardContent, {
+          [styles.success]: state.scanIndex != null,
+        })}>
           {scanning ? (
             <React.Fragment>
               <QrReader
+                className={styles.qr}
                 delay={500}
                 onError={handleScanError}
                 onScan={handleScan}
               />
+              {JSON.stringify(
+                state.scanIndex != null,
+              )}
               <Button variant="outlined" onClick={() => setScanning(false)}>Stop Scanning</Button>
             </React.Fragment>
           ) : (
