@@ -3,7 +3,8 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { Card, CardContent, Typography, CssBaseline, Container, makeStyles } from '@material-ui/core';
+import { Card, CardContent, CardActions, Typography, CssBaseline, Container, makeStyles } from '@material-ui/core';
+import packageJson from '../../../package.json'
 import { Routes } from '../../constants'
 import Edit from '../edit'
 import Print from '../print'
@@ -85,6 +86,16 @@ function Home() {
           can't scan a QR code? Every page also has a series of words that
           contain the same piece of your secret as the QR code. If you need to,
           you can simply type those into the "Assemble Secret" page.
+        </p>
+        <p>
+          For additional details view the project on <a
+            href={packageJson.repository}
+            target="_blank"
+            rel="noopener noreferrer">
+            GitHub
+          </a>
+
+
         </p>
       </CardContent>
     </Card>

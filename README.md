@@ -1,44 +1,58 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Experimental
 
-## Available Scripts
+This project is still experimental and may continue to change. I cannot
+guarantee that pages printed today will continue to scan in the future.
 
-In the project directory, you can run:
+# Overview
 
-### `npm start`
+Say you have an important password to backup in case you ever forget it. Maybe
+you use a password manager for most passwords, but how do you backup your
+password for your password manager? You don’t want to just write it down because
+anyone who finds it will have your password.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Using the Shamir Secret Splitter you can split your password into pices and
+store them in different places. You might decide to split it into 4 pages and
+any set of 3 can be used to assemble the password.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Each page contains a QR code with a link back to this site. No special software
+is needed, just point your phone's camera at the page and follow the link. From
+the limited testing I’ve done, it seems like QR code scanners are built into the
+default camera apps on Android and iOS. When the camera finds a QR code you
+should get some kind of notification asking if you want to open the link in your
+browser. If it doesn’t work, you may need to go change a setting to turn on QR
+code scanning.
 
-### `npm test`
+When you arrive on the "Assemble Secret" page it has a Scan QR Codes button that
+you can use to scan the remaining pages. But what if you can't scan a QR code?
+Every page also has a series of words that contain the same piece of your secret
+as the QR code. If you need to, you can simply type those into the "Assemble
+Secret" page.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Details
 
-### `npm run build`
+I built this project because I was inspired by [Matt Parker’s][MattParker] video
+[How to keep an open secret with mathematics][video]. Instead of building
+[Shamir’s Secret Sharing][wp] myself, this project is built around [this
+implementation][shamir]. That library seems to encrypt each byte of the message.
+This means the output is always the same length as the input. I don’t know how
+to verify the security guarantees of this implementation.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The words used as a backup in case the QR code doesn’t scan uses the [PGP Word
+List][wordlist].
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+# Security
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+I don't know how to verify the security of the [shamir][shamir] library I'm
+using. It encrypts each byte of the message, and the word list replaces each
+byte with a word. So the number of words on your secret page is also the number
+of bytes in the original message.
 
-### `npm run eject`
+If you know how to verify the security of this system, or know how to improve it
+please let me know by opening an issue here on GitHub.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[MattParker]: http://standupmaths.com/
+[video]: https://www.youtube.com/watch?v=K54ildEW9-Q
+[wp]: https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing
+[shamir]: https://www.npmjs.com/package/shamir
+[wordlist]: https://en.wikipedia.org/wiki/PGP_word_list
