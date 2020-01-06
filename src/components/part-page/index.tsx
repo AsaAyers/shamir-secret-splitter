@@ -1,4 +1,5 @@
 import React from 'react'
+import { Paper } from '@material-ui/core'
 import { Part } from '../../types'
 import PartInput from '../part-input'
 import styles from './styles.module.css'
@@ -17,7 +18,7 @@ export default function PartPage({ part, children }: Props) {
   const href = window.location.protocol + '//' + window.location.host
     + history.createHref({ pathname: Routes.Assemble })
   return (
-    <div className={styles.page}>
+    <Paper className={styles.page}>
       <h1>{part.label}</h1>
       <h2>{part.index} of {part.numParts}</h2>
 
@@ -30,6 +31,6 @@ export default function PartPage({ part, children }: Props) {
       </p>
       <PartInput part={part} index={part.index}
       />
-    </div>
+    </Paper>
   )
 }

@@ -3,12 +3,12 @@ import {
   useLocation, useHistory, Link
 } from "react-router-dom";
 import QRCode from 'qrcode.react'
+import { Button, Card, CardContent, CardActions } from '@material-ui/core';
 import { Routes } from '../../constants'
 import PartPage from '../part-page'
 import { Secret } from '../../types'
 import { split } from '../../wrapper'
 import styles from './styles.module.css'
-import { Button } from '@material-ui/core';
 
 export function useSecretFromLocation(): Secret | null {
   const location = useLocation()
@@ -66,25 +66,27 @@ export default function PrintSecret() {
 
   return (
     <React.Fragment>
-      <div className={styles.noPrint}>
+      <Card className={styles.noPrint}>
+        <CardContent>
+          <p>
+            Thew following pages contain your secret. Print them and distribute
+            them to different locations. From the Assemble Secret page, if you
+            scan any {secret.quorum} of these codes, it will display your
+            secret.
+          </p>
+        </CardContent>
+        <CardActions>
+          <Link to={{ pathname: Routes.Edit, state: secret }}>
+            <Button variant="outlined">
+              Edit
+            </Button>
+          </Link>
 
-        <p>
-          Thew following pages contain your secret.
-          Print them and distribute them to different locations.
-          From the Assemble Secret page, if you scan any {secret.quorum}
-          of these codes, it will display your secret.
-        </p>
-
-        <Link to={{ pathname: Routes.Edit, state: secret }}>
-          <Button variant="outlined">
-            Edit
+          <Button onClick={() => window.print()} variant="outlined">
+            Print
           </Button>
-        </Link>
-
-        <Button onClick={() => window.print()} variant="outlined">
-          Print
-        </Button>
-      </div>
+        </CardActions>
+      </Card>
       {parts.map((part) => {
 
         const search = new URLSearchParams()
@@ -107,6 +109,7 @@ export default function PrintSecret() {
           <PartPage part={part} key={part.index} >
             <Link to={destination}>
               <QRCode
+                className={styles.qr}
                 renderAs="svg"
                 size={512}
                 value={href}
