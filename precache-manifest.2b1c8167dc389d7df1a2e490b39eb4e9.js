@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "abc6f78527e2a83722dc4649d59198a5",
+    "revision": "fa224eb3d77db4d4c679197fa6622aa6",
     "url": "/shamir-secret-splitter/index.html"
   },
   {
-    "revision": "0484a220c84ff6873e03",
+    "revision": "03f33c0cacc6ce0d06da",
     "url": "/shamir-secret-splitter/static/css/main.e18672de.chunk.css"
   },
   {
-    "revision": "519838df01cb8a8c0434",
-    "url": "/shamir-secret-splitter/static/js/2.c6e2f6ff.chunk.js"
+    "revision": "766c4e6d3118764f6780",
+    "url": "/shamir-secret-splitter/static/js/2.ef5d9d08.chunk.js"
   },
   {
     "revision": "86ae2eba82d191b15ff0d7588f8af018",
-    "url": "/shamir-secret-splitter/static/js/2.c6e2f6ff.chunk.js.LICENSE"
+    "url": "/shamir-secret-splitter/static/js/2.ef5d9d08.chunk.js.LICENSE"
   },
   {
-    "revision": "0484a220c84ff6873e03",
-    "url": "/shamir-secret-splitter/static/js/main.da2d839b.chunk.js"
+    "revision": "03f33c0cacc6ce0d06da",
+    "url": "/shamir-secret-splitter/static/js/main.bf69ae3a.chunk.js"
   },
   {
     "revision": "03e0d94cf782add5fd3b",
