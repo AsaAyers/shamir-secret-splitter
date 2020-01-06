@@ -23,23 +23,41 @@ const initialState: State = {
 }
 
 
-function reducer(state: State, text: string): State {
-  let hex = wordsToHex(text)
-  if (typeof hex !== 'string') {
-    const tmp = text.split(/\s+/g)
-    tmp.pop()
-    hex = wordsToHex(tmp.join(' '))
+type Action =
+  | { type: 'text', payload: string }
+  | { type: 'hex', payload: string }
+function reducer(state: State, action: Action): State {
+  if (action.type === 'hex') {
+    const hex = action.payload
+    let text = hexToWords(hex).join(' ')
+
+    return {
+      hex,
+      text,
+      error: null,
+    }
   }
 
-  if (typeof hex == 'string') {
-    return { hex, text, error: null, }
-  }
+  if (action.type === 'text') {
+    const text = action.payload
+    let hex = wordsToHex(text)
+    if (typeof hex !== 'string') {
+      const tmp = text.split(/\s+/g)
+      tmp.pop()
+      hex = wordsToHex(tmp.join(' '))
+    }
 
-  return {
-    ...state,
-    text,
-    error: `${hex.word} not recognized`
+    if (typeof hex == 'string') {
+      return { hex, text, error: null, }
+    }
+
+    return {
+      ...state,
+      text,
+      error: `${hex.word} not recognized`
+    }
   }
+  return state;
 }
 
 export default function PartInput({ part, onChange, index }: Props) {
@@ -50,18 +68,25 @@ export default function PartInput({ part, onChange, index }: Props) {
     if (typeof result === 'string') {
       return {
         ...state,
-        text: result
+        text: result,
+        hex,
       }
     }
     return state
+  })
+  React.useEffect(() => {
+    if (hex !== state.hex) {
+      dispatch({ type: 'hex', payload: hex })
+
+    }
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!onChange) { return }
 
-    const value = e.target.value
-    dispatch(value)
-    const newHex = wordsToHex(value)
+    const text = e.target.value
+    dispatch({ type: 'text', payload: text })
+    const newHex = wordsToHex(text)
 
     if (typeof newHex === 'string' && newHex !== hex) {
       onChange(index, newHex)

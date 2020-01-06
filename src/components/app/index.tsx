@@ -3,7 +3,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { Card, CardContent, CardActions, Typography, CssBaseline, Container, makeStyles } from '@material-ui/core';
+import { Card, CardContent, Typography, CssBaseline, Container, makeStyles } from '@material-ui/core';
 import packageJson from '../../../package.json'
 import { Routes } from '../../constants'
 import Edit from '../edit'
