@@ -45,15 +45,29 @@ type ActionClearScan = {
   payload: State['scanIndex'],
 }
 
+type ActionReset = {
+  type: 'reset',
+}
+
 type Action =
   | ActionSetNumParts
   | ActionsSetPart
   | ActionClearScan
+  | ActionReset
+
+
+const initialState: State = {
+  numParts: DEFAULT_PARTS,
+  parts: {},
+  scanIndex: undefined,
+}
 
 const unreachable = (_n: never) => { }
 function reducer(state: State, action: Action): State {
 
   switch (action.type) {
+    case "reset":
+      return initialState
     case "setNumParts":
       return {
         ...state,
@@ -106,11 +120,6 @@ function reducer(state: State, action: Action): State {
   return state
 }
 
-const initialState: State = {
-  numParts: DEFAULT_PARTS,
-  parts: {},
-  scanIndex: undefined,
-}
 
 function queryToPart(query: URLSearchParams): Part | null {
   const index = Number(query.get('index'))
@@ -207,6 +216,7 @@ export default function AssembleSecret() {
         Object.values(parts)
       )
       setSecret(secret)
+      dispatch({ type: 'reset' })
     } catch (e) {
       console.error(e)
     }
@@ -246,7 +256,8 @@ export default function AssembleSecret() {
         const url = new URL(data)
         const part = queryToPart(url.searchParams)
 
-        if (part != null) {
+        if (part != null && part.hex !== parts[part.index]?.hex) {
+
           const scan = Math.random()
           dispatch({
             type: 'setPart',
