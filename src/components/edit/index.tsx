@@ -116,7 +116,7 @@ export default function NewSecret() {
           </p>
         </CardContent>
         <CardActions>
-          <Button type="submit" color="primary" variant="outlined">
+          <Button type="submit" color="primary" data-testid="done-btn" variant="outlined">
             Done
           </Button>
         </CardActions>

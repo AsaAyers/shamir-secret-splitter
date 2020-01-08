@@ -22,8 +22,8 @@ test('Can navigate from home to new', () => {
   expect(secretLabel).toBeInTheDocument();
 });
 
-test.skip('Can create a secret', async () => {
-  const { getByLabelText, getByText, getAllByText } = render(
+test('Can create a secret', async () => {
+  const { getByLabelText, getByTestId, getAllByText } = render(
     <Router initialEntries={["/edit"]}>
       <App />
     </Router>
@@ -40,8 +40,6 @@ test.skip('Can create a secret', async () => {
       getByLabelText('Label'),
       { target: { value: label } }
     )
-
-
 
     fireEvent.change(
       getByLabelText('Secret Text'),
@@ -64,21 +62,21 @@ test.skip('Can create a secret', async () => {
     await Promise.resolve()
 
     fireEvent.click(
-      getByText('Done')
+      // I think I have to use the test ID, because the `<span` doesn't bubble
+      // up to the <button and trigger onSubmit.
+      getByTestId('done-btn')
     )
   })
 
 
   await waitForElement(
-    () => getAllByText(secretText, { exact: false })
+    () => getAllByText("Print", { exact: false })
   )
 
   expect(
     getAllByText(label, { exact: false })[0]
   ).toBeInTheDocument();
-  expect(
-    getAllByText(secretText, { exact: false })[0]
-  ).toBeInTheDocument();
+
   expect(
     getAllByText(String(quorum), { exact: false })[0]
   ).toBeInTheDocument();
