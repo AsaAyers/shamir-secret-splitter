@@ -353,7 +353,7 @@ export default function AssembleSecret() {
 
         </CardContent>
         <CardActions>
-          <Button type="submit" color="primary" variant="outlined">
+          <Button type="submit" color="primary" variant="outlined" data-testid="done-btn">
             Done
           </Button>
         </CardActions>
