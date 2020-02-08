@@ -98,7 +98,7 @@ export default function PrintSecret() {
 
         const destination: any = {
           pathname: Routes.Assemble,
-          search: search.toString(),
+          hash: search.toString(),
         }
 
         const href = window.location.protocol + '//' + window.location.host

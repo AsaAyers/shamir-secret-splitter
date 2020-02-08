@@ -9,9 +9,21 @@ export function useHtmlId() {
 
 
 export function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+  const location = useLocation()
+  console.log(location.hash || location.search)
+  const params = (
+    // Prefer pulling the parameters from the hash
+    location.hash
+    // but fal back to allowing search for backward compatilibity. Search
+    // parameters are sent to the server, so when arriving by QR code the server
+    // can see the first part of the secret.
+    || location.search
+  )
 
+  return new URLSearchParams(
+    params.replace(/^#/, '?')
+  );
+}
 
 
 // Based on the hook at https://usehooks.com/useLocalStorage/
