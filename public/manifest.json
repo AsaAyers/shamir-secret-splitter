@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Shamir Secret Splitter",
+  "name": "Shamir Secret Splitter",
   "icons": [
     {
       "src": "favicon.ico",
