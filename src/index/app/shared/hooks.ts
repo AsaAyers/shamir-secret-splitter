@@ -10,7 +10,6 @@ export function useHtmlId() {
 
 export function useQuery() {
   const location = useLocation()
-  console.log(location.hash || location.search)
   const params = (
     // Prefer pulling the parameters from the hash
     location.hash

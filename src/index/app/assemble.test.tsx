@@ -57,17 +57,18 @@ test('Can Assemble a secret from QR codes', async () => {
     utils.getByText('Scan QR Codes')
   )
 
+  // This one still uses ? to verify backward compatibility
   utils.onScan('https://asaayers.github.io/shamir-secret-splitter/assemble?index=1&hex=d57f10bbf6bf315315f553fe01c9b8e3fa2cd33a029c1341c96f0b75&numParts=4&quorum=3&label=XKCD')
   await utils.findByText(part1Text)
   expect(window.navigator.vibrate).toHaveBeenCalledTimes(1)
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(1)
 
-  utils.onScan('https://asaayers.github.io/shamir-secret-splitter/assemble?index=2&hex=401b36941bdb8c815034e1cb208ddb9fd5bb956f78d2bb2d59c33c75&numParts=4&quorum=3&label=XKCD')
+  utils.onScan('https://asaayers.github.io/shamir-secret-splitter/assemble#index=2&hex=401b36941bdb8c815034e1cb208ddb9fd5bb956f78d2bb2d59c33c75&numParts=4&quorum=3&label=XKCD')
   await utils.findByText(part2Text)
   expect(window.navigator.vibrate).toHaveBeenCalledTimes(2)
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(2)
 
-  utils.onScan('https://asaayers.github.io/shamir-secret-splitter/assemble?index=3&hex=d60b545d8807c9f20daec0464464211d5be32327036efb18f1dc5b65&numParts=4&quorum=3&label=XKCD')
+  utils.onScan('https://asaayers.github.io/shamir-secret-splitter/assemble#index=3&hex=d60b545d8807c9f20daec0464464211d5be32327036efb18f1dc5b65&numParts=4&quorum=3&label=XKCD')
   // await utils.findByText()
   expect(window.navigator.vibrate).toHaveBeenCalledTimes(3)
   expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(3)
@@ -108,7 +109,7 @@ test('Can assemble a secret from text', async () => {
   ).toBeInTheDocument()
 })
 
-test.only('Text inputs validate complete words', async () => {
+test('Text inputs validate complete words', async () => {
   const utils = renderWithScanner(
     <Router initialEntries={[Routes.Assemble]}>
       <Assemble />

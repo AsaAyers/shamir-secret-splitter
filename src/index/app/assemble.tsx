@@ -253,7 +253,7 @@ export default function AssembleSecret() {
   const handleScan = (data: string | null) => {
     if (data) {
       try {
-        const url = new URL(data)
+        const url = new URL(data.replace(/#/, '?'))
         const part = queryToPart(url.searchParams)
 
         if (part != null && part.hex !== parts[part.index]?.hex) {

@@ -76,23 +76,6 @@ export default function NewSecret() {
 
 
           <TextField
-            name="quorum"
-            select
-            SelectProps={{
-              native: true
-            }}
-            id="quorum"
-            data-testid="quorum"
-            label="quorum"
-            value={state.quorum}
-            onChange={handleChange}
-          >
-            {quorumOptions.map((n) => (
-              <option key={n} value={n}>{n}</option>
-            ))}
-          </TextField>
-
-          <TextField
             name="numParts"
             select
             label="Parts"
@@ -105,6 +88,23 @@ export default function NewSecret() {
             onChange={handleChange}
           >
             {partsOptions.map((n) => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+          </TextField>
+
+          <TextField
+            name="quorum"
+            select
+            SelectProps={{
+              native: true
+            }}
+            id="quorum"
+            data-testid="quorum"
+            label="quorum"
+            value={state.quorum}
+            onChange={handleChange}
+          >
+            {quorumOptions.map((n) => (
               <option key={n} value={n}>{n}</option>
             ))}
           </TextField>
