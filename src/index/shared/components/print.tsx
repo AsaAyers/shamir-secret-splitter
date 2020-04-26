@@ -4,11 +4,11 @@ import {
 } from "react-router-dom";
 import QRCode from 'qrcode.react'
 import { Button, Card, CardContent, CardActions } from '@material-ui/core';
-import { Routes } from '../../constants'
-import PartPage from '../part-page'
-import { Secret } from '../../types'
-import { split } from '../../wrapper'
-import styles from './styles.module.css'
+import { Routes } from '../constants'
+import PartPage from '../../app/edit/print/part-page'
+import { Secret } from '../../app/shared/types'
+import { split } from '../../app/shared/wrapper'
+import styles from '../../app/edit/print/styles.module.css'
 
 export function useSecretFromLocation(): Secret | null {
   const location = useLocation()

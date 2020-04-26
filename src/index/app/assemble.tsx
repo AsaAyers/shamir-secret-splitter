@@ -3,14 +3,14 @@ import QrReader from 'react-qr-reader'
 import { useHistory } from 'react-router-dom'
 import classnames from 'classnames'
 import { Card, CardContent, CardActions, TextField, MenuItem, Button, makeStyles } from '@material-ui/core';
-import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from '../../constants'
-import { useQuery, useLocalStorage } from '../../hooks'
-import { Part, MinimumPart } from '../../types'
-import { join } from '../../wrapper'
-import PartInput from '../part-input'
-import styles from './styles.module.css'
+import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS } from '../shared/constants'
+import { useQuery, useLocalStorage } from './shared/hooks'
+import { Part, MinimumPart } from './shared/types'
+import { join } from './shared/wrapper'
+import PartInput from './shared/components/part-input'
+import styles from './assemble/styles.module.css'
 // https://www.partnersinrhyme.com/soundfx/PUBLIC-DOMAIN-SOUNDS/beep_sounds/beep_beep-pure_wav.shtml
-import mp3 from './BEEPPURE.mp3'
+import mp3 from './assemble/BEEPPURE.mp3'
 
 const useStyles = makeStyles({
   cardContent: {

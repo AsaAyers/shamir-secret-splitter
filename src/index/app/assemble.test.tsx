@@ -2,8 +2,8 @@ import React from 'react';
 import { render, fireEvent, waitForElement } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import { MemoryRouter as Router } from "react-router-dom";
-import Assemble from '.';
-import { Routes } from '../../constants';
+import Assemble from './assemble';
+import { Routes } from '../shared/constants';
 
 
 

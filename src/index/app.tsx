@@ -4,12 +4,12 @@ import {
   Route,
 } from "react-router-dom";
 import { Card, CardContent, Typography, CssBaseline, Container, makeStyles } from '@material-ui/core';
-import packageJson from '../../../package.json'
-import { Routes } from '../../constants'
-import Edit from '../edit'
-import Print from '../print'
-import AssembleSecret from '../assemble'
-import Nav from '../nav'
+import packageJson from '../../package.json'
+import { Routes } from './shared/constants'
+import Edit from './app/edit'
+import Print from './shared/components/print'
+import AssembleSecret from './app/assemble'
+import Nav from './app/nav'
 
 export default function App() {
   return (

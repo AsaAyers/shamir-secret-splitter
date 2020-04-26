@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react';
-import PartInput from '.'
+import PartInput from './part-input'
 
 test('PartInput updates the text when hex changes externally', () => {
   let part = {

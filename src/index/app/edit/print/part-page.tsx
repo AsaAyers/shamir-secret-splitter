@@ -1,10 +1,10 @@
 import React from 'react'
 import { Paper } from '@material-ui/core'
-import { Part } from '../../types'
-import PartInput from '../part-input'
-import styles from './styles.module.css'
+import { Part } from '../../shared/types'
+import PartInput from '../../shared/components/part-input'
+import styles from './part-page/styles.module.css'
 import { useHistory } from 'react-router-dom'
-import { Routes } from '../../constants'
+import { Routes } from '../../../shared/constants'
 
 
 type Props = {

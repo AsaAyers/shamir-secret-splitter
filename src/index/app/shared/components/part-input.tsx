@@ -1,8 +1,8 @@
 import React from 'react'
 import { TextField } from '@material-ui/core';
-import { Part, MinimumPart } from '../../types'
-import { hexToWords, wordsToHex } from '../../pgp-phrase'
-import { useHtmlId } from '../../hooks';
+import { Part, MinimumPart } from '../types'
+import { hexToWords, wordsToHex } from '../../edit/print/part-page/part-input/pgp-phrase'
+import { useHtmlId } from '../hooks';
 
 type Props = {
   part?: MinimumPart | Part,

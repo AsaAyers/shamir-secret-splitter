@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './components/app';
+import './index/index.css';
+import App from './index/app';
 import { BrowserRouter as Router } from "react-router-dom";
-import './serviceWorker';
+import './index/serviceWorker';
 
 const basename = '/shamir-secret-splitter'
 

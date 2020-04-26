@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, CardContent, CardActions, TextField, Button, makeStyles, Typography } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
-import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS, DEFAULT_QUORUM } from '../../constants'
-import { useSecretFromLocation } from '../print'
-import { Secret } from '../../types'
+import { Routes, MAX_PARTS, MIN_PARTS, DEFAULT_PARTS, DEFAULT_QUORUM } from '../shared/constants'
+import { useSecretFromLocation } from '../shared/components/print'
+import { Secret } from './shared/types'
 
 const useStyles = makeStyles({
   title: {

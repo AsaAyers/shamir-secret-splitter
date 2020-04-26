@@ -1,8 +1,8 @@
 import React from 'react'
 import { Tabs, Tab } from '@material-ui/core'
-import { Routes } from '../../constants'
+import { Routes } from '../shared/constants'
 import { useHistory, useLocation } from 'react-router-dom'
-import styles from './styles.module.css'
+import styles from './nav/styles.module.css'
 
 export default function Nav() {
   const location = useLocation()
