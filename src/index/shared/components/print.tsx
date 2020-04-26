@@ -11,7 +11,7 @@ import { split } from '../../app/shared/wrapper'
 import styles from '../../app/edit/print/styles.module.css'
 
 export function useSecretFromLocation(): Secret | null {
-  const location = useLocation()
+  const location = useLocation<Secret>()
 
   return React.useMemo(() => {
     if (!location.state) {
