@@ -303,11 +303,20 @@ export default function AssembleSecret() {
     )
   }
   if (secret) {
+    let content = <span>{secret}</span>
+    try {
+      const url = new URL(secret)
+      content = (
+        <a href={url.href}>{secret}</a>
+      )
+    } catch (e) {
+      // Ignore URL parsing errors
+    }
 
     return (
       <Card>
         <CardContent>
-          {secret}
+          {content}
         </CardContent>
       </Card>
     )
