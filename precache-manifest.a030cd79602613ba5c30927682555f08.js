@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "07af853dd8d74c96bf9ecf82f735cd8d",
+    "revision": "23fe138f525bb053837b1d4580245439",
     "url": "/shamir-secret-splitter/index.html"
   },
   {
-    "revision": "1fec82afa670be13fe86",
+    "revision": "64145e51de3249a3d389",
     "url": "/shamir-secret-splitter/static/css/main.e021fb22.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/shamir-secret-splitter/static/js/2.4899f557.chunk.js.LICENSE"
   },
   {
-    "revision": "1fec82afa670be13fe86",
-    "url": "/shamir-secret-splitter/static/js/main.c06948b4.chunk.js"
+    "revision": "64145e51de3249a3d389",
+    "url": "/shamir-secret-splitter/static/js/main.f11b16a6.chunk.js"
   },
   {
     "revision": "03e0d94cf782add5fd3b",
