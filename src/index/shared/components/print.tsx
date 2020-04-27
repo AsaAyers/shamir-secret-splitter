@@ -17,18 +17,18 @@ export function useSecretFromLocation(): Secret | null {
     if (!location.state) {
       return null
     }
-    const numParts = Number(location.state.numParts || 0)
-    const quorum = Number(location.state.quorum || 0)
+    const shares = Number(location.state.shares || 0)
+    const threshold = Number(location.state.threshold || 0)
 
-    if (!numParts || !quorum || quorum >= numParts) {
+    if (!shares || !threshold || threshold >= shares) {
       return null
     }
 
     return {
       label: location.state.label || "",
       text: location.state.text || "",
-      numParts,
-      quorum,
+      shares,
+      threshold,
     }
   }, [location.state])
 }
@@ -55,8 +55,8 @@ export default function PrintSecret() {
       || secret == null
       || !secret.label
       || !secret.text
-      || !secret.numParts
-      || !secret.quorum
+      || !secret.shares
+      || !secret.threshold
     ) {
       history.push(Routes.Edit, secret)
     }
@@ -71,7 +71,7 @@ export default function PrintSecret() {
           <p>
             Thew following pages contain your secret. Print them and distribute
             them to different locations. From the Assemble Secret page, if you
-            scan any {secret.quorum} of these codes, it will display your
+            scan any {secret.threshold} of these codes, it will display your
             secret.
           </p>
         </CardContent>
@@ -92,8 +92,8 @@ export default function PrintSecret() {
         const search = new URLSearchParams()
         search.set('index', String(part.index))
         search.set('hex', part.hex)
-        search.set('numParts', String(part.numParts))
-        search.set('quorum', String(part.quorum))
+        search.set('shares', String(part.shares))
+        search.set('threshold', String(part.threshold))
         search.set('label', String(part.label))
 
         const destination: any = {

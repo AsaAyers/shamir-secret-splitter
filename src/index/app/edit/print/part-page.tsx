@@ -20,7 +20,7 @@ export default function PartPage({ part, children }: Props) {
   return (
     <Paper className={styles.page}>
       <h1>{part.label}</h1>
-      <h2>{part.index} of {part.numParts}</h2>
+      <h2>{part.index} of {part.shares}</h2>
 
       {children}
 

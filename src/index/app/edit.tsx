@@ -18,8 +18,8 @@ const useStyles = makeStyles({
 const emptySecret: Secret = {
   label: "",
   text: "",
-  numParts: DEFAULT_PARTS,
-  quorum: DEFAULT_QUORUM,
+  shares: DEFAULT_PARTS,
+  threshold: DEFAULT_QUORUM,
 }
 
 
@@ -41,13 +41,13 @@ export default function NewSecret() {
   }
 
   const partsOptions: number[] = []
-  const quorumOptions: number[] = []
+  const thresholdOptions: number[] = []
   for (let i = 1; i <= MAX_PARTS; i++) {
     if (i >= MIN_PARTS) {
       partsOptions.push(i)
     }
-    if (i < state.numParts) {
-      quorumOptions.push(i)
+    if (i < state.shares) {
+      thresholdOptions.push(i)
     }
   }
 
@@ -76,15 +76,15 @@ export default function NewSecret() {
 
 
           <TextField
-            name="numParts"
+            name="shares"
             select
-            label="Parts"
+            label="Shares"
             id="parts"
             SelectProps={{
               native: true
             }}
             data-testid="parts"
-            value={state.numParts}
+            value={state.shares}
             onChange={handleChange}
           >
             {partsOptions.map((n) => (
@@ -93,25 +93,25 @@ export default function NewSecret() {
           </TextField>
 
           <TextField
-            name="quorum"
+            name="threshold"
             select
             SelectProps={{
               native: true
             }}
-            id="quorum"
-            data-testid="quorum"
-            label="quorum"
-            value={state.quorum}
+            id="threshold"
+            data-testid="threshold"
+            label="Threshold"
+            value={state.threshold}
             onChange={handleChange}
           >
-            {quorumOptions.map((n) => (
+            {thresholdOptions.map((n) => (
               <option key={n} value={n}>{n}</option>
             ))}
           </TextField>
 
           <p>
-            In order to reassemble your secret, you will need {state.quorum} out
-            of {state.numParts} pieces. Your label will be printed at the top of
+            In order to reassemble your secret, you will need {state.threshold} out
+            of {state.shares} pieces. Your label will be printed at the top of
             each page.
           </p>
         </CardContent>

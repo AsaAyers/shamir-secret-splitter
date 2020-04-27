@@ -13,14 +13,14 @@ test('wrapper can split and combine a secret', () => {
   const secret: Secret = {
     label: "Test Secret",
     text: `Password: ${Math.random()}`,
-    numParts: 6,
-    quorum: 4,
+    shares: 6,
+    threshold: 4,
   }
 
   const parts = split(secret)
-  expect(parts.length).toBe(secret.numParts)
+  expect(parts.length).toBe(secret.shares)
 
-  while (parts.length > secret.quorum) {
+  while (parts.length > secret.threshold) {
     parts.splice(Math.floor(Math.random() * parts.length), 1);
   }
 

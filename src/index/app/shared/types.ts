@@ -2,8 +2,8 @@
 export type Secret = {
   label: string,
   text: string,
-  numParts: number,
-  quorum: number,
+  shares: number,
+  threshold: number,
 }
 
 export type MinimumPart = {
@@ -13,6 +13,6 @@ export type MinimumPart = {
 
 export type Part = MinimumPart & {
   label: Secret['label'],
-  numParts: Secret['numParts'],
-  quorum: Secret['quorum'],
+  shares: Secret['shares'],
+  threshold: Secret['threshold'],
 }

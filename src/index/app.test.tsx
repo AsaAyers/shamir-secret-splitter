@@ -31,7 +31,7 @@ test('Can create a secret', async () => {
 
   const label = `Asa's Secret`
   const secretText = `password: ${Math.random()}`
-  const quorum = 3
+  const threshold = 3
   const parts = 4
 
 
@@ -48,12 +48,12 @@ test('Can create a secret', async () => {
 
 
     fireEvent.change(
-      getByLabelText('quorum'),
-      { target: { value: quorum } }
+      getByLabelText('Threshold'),
+      { target: { value: threshold } }
     )
 
     fireEvent.change(
-      getByLabelText('Parts'),
+      getByLabelText('Shares'),
       { target: { value: parts } }
     )
 
@@ -78,7 +78,7 @@ test('Can create a secret', async () => {
   ).toBeInTheDocument();
 
   expect(
-    getAllByText(String(quorum), { exact: false })[0]
+    getAllByText(String(threshold), { exact: false })[0]
   ).toBeInTheDocument();
   expect(
     getAllByText(String(parts), { exact: false })[0]

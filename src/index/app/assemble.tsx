@@ -24,13 +24,13 @@ function notEmpty<T>(item: T | null | undefined): item is T {
 }
 
 type State = {
-  numParts: number,
+  shares: number,
   parts: Record<string, Part | MinimumPart>
   scanIndex: undefined | number
 }
 
-type ActionSetNumParts = {
-  type: 'setNumParts',
+type ActionSetShares = {
+  type: 'setShares',
   payload: number,
 }
 
@@ -50,14 +50,14 @@ type ActionReset = {
 }
 
 type Action =
-  | ActionSetNumParts
+  | ActionSetShares
   | ActionsSetPart
   | ActionClearScan
   | ActionReset
 
 
 const initialState: State = {
-  numParts: DEFAULT_PARTS,
+  shares: DEFAULT_PARTS,
   parts: {},
   scanIndex: undefined,
 }
@@ -68,17 +68,17 @@ function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "reset":
       return initialState
-    case "setNumParts":
+    case "setShares":
       return {
         ...state,
-        numParts: action.payload,
+        shares: action.payload,
         parts: {},
       }
     case "setPart": {
       let part = action.payload
-      const numParts = 'numParts' in part ? part.numParts : state.numParts
+      const shares = 'shares' in part ? part.shares : state.shares
       let parts = state.parts
-      if (numParts !== state.numParts) {
+      if (shares !== state.shares) {
         parts = {}
       }
 
@@ -89,7 +89,7 @@ function reducer(state: State, action: Action): State {
         return {
           ...state,
           parts,
-          numParts,
+          shares,
         }
       }
 
@@ -100,7 +100,7 @@ function reducer(state: State, action: Action): State {
           ...parts,
           [part.index]: part
         },
-        numParts,
+        shares,
         scanIndex,
       }
     }
@@ -124,25 +124,25 @@ function reducer(state: State, action: Action): State {
 function queryToPart(query: URLSearchParams): Part | null {
   const index = Number(query.get('index'))
   const hex = query.get('hex')
-  const numParts = Number(query.get('numParts'))
+  const shares = Number(query.get('shares') ?? query.get('numParts'))
   const label = query.get('label')
-  const quorum = Number(query.get('quorum'))
+  const threshold = Number(query.get('threshold') ?? query.get('quorum'))
   if (
     !isNaN(index)
     && index > 0
     && hex
-    && !isNaN(numParts)
-    && numParts > 0
-    && !isNaN(quorum)
-    && quorum > 0
+    && !isNaN(shares)
+    && shares > 0
+    && !isNaN(threshold)
+    && threshold > 0
     && label != null
   ) {
     const part: Part = {
       index,
       hex,
       label,
-      numParts,
-      quorum
+      shares,
+      threshold
     }
     return part
   }
@@ -187,10 +187,10 @@ export default function AssembleSecret() {
   }, [history])
   usePartParameters(paramCB)
 
-  const { numParts, parts } = state
-  const handleChangeNumParts = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const { shares, parts } = state
+  const handleChangeShares = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     dispatch({
-      type: 'setNumParts',
+      type: 'setShares',
       payload: Number(e.target.value)
     })
   }
@@ -231,15 +231,15 @@ export default function AssembleSecret() {
       'label' in p
       && 'label' in parts[0]
       && p.label === parts[0].label
-      && p.numParts === parts[0].numParts
-      && p.quorum === parts[0].quorum
+      && p.shares === parts[0].shares
+      && p.threshold === parts[0].threshold
 
     ))
 
     if (
       parts[0]
-      && 'quorum' in parts[0]
-      && parts.length === parts[0].quorum
+      && 'threshold' in parts[0]
+      && parts.length === parts[0].threshold
       && done
     ) {
       handleSubmit()
@@ -297,9 +297,9 @@ export default function AssembleSecret() {
     ))
 
   const partInputs: JSX.Element[] = []
-  for (let i = 1; i <= numParts; i++) {
+  for (let i = 1; i <= shares; i++) {
     partInputs.push(
-      <PartInput key={`${i}/${numParts}`} index={i} part={parts[i]} onChange={handleChangeHex} />
+      <PartInput key={`${i}/${shares}`} index={i} part={parts[i]} onChange={handleChangeHex} />
     )
   }
   if (secret) {
@@ -328,9 +328,6 @@ export default function AssembleSecret() {
                 onError={handleScanError}
                 onScan={handleScan}
               />
-              {JSON.stringify(
-                state.scanIndex != null,
-              )}
               <Button variant="outlined" onClick={() => setScanning(false)}>Stop Scanning</Button>
             </React.Fragment>
           ) : (
@@ -340,11 +337,11 @@ export default function AssembleSecret() {
           <br />
 
           <TextField
-            name="numParts"
+            name="shares"
             select
-            label="Parts"
-            value={numParts}
-            onChange={handleChangeNumParts}
+            label="Shares"
+            value={shares}
+            onChange={handleChangeShares}
           >
             {partsOptions}
           </TextField>

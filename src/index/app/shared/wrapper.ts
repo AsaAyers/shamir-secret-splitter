@@ -6,13 +6,13 @@ export function split(secret: Secret): Part[] {
   const utf8Encoder = new TextEncoder();
   let secretBytes = utf8Encoder.encode(secret.text);
 
-  const uintParts = shamir.split(randomBytes, secret.numParts, secret.quorum, secretBytes);
+  const uintParts = shamir.split(randomBytes, secret.shares, secret.threshold, secretBytes);
 
   return Object.entries(uintParts).map(([key, uint]): Part => {
     return {
       label: secret.label,
-      numParts: secret.numParts,
-      quorum: secret.quorum,
+      shares: secret.shares,
+      threshold: secret.threshold,
       index: Number(key),
       hex: Buffer.from(uint).toString('hex')
     }
