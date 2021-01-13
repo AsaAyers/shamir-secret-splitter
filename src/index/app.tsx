@@ -45,16 +45,6 @@ function Home() {
     <Card className={classes.home}>
       <CardContent>
         <Typography component="h1">
-          Experimental
-        </Typography>
-
-        <p>
-          This project is still experimental and may continue to change. I
-          cannot guarantee that pages printed today will continue to scan in the
-          future.
-        </p>
-
-        <Typography component="h1">
           Overview
         </Typography>
 

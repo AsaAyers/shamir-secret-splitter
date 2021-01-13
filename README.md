@@ -1,8 +1,3 @@
-# Experimental
-
-This project is still experimental and may continue to change. I cannot
-guarantee that pages printed today will continue to scan in the future.
-
 # Overview
 
 Say you have an important password to backup in case you ever forget it. Maybe
