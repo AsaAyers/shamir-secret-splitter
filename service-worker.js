@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/shamir-secret-splitter/precache-manifest.a030cd79602613ba5c30927682555f08.js"
+  "/shamir-secret-splitter/precache-manifest.356f128b5c2001c1cf30491d5786cb8c.js"
 );
 
 self.addEventListener('message', (event) => {

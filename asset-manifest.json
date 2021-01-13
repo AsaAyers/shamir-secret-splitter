@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/shamir-secret-splitter/static/css/main.e021fb22.chunk.css",
-    "main.js": "/shamir-secret-splitter/static/js/main.f11b16a6.chunk.js",
-    "main.js.map": "/shamir-secret-splitter/static/js/main.f11b16a6.chunk.js.map",
+    "main.js": "/shamir-secret-splitter/static/js/main.a8ca2768.chunk.js",
+    "main.js.map": "/shamir-secret-splitter/static/js/main.a8ca2768.chunk.js.map",
     "runtime-main.js": "/shamir-secret-splitter/static/js/runtime-main.1f08e6b3.js",
     "runtime-main.js.map": "/shamir-secret-splitter/static/js/runtime-main.1f08e6b3.js.map",
     "static/js/2.4899f557.chunk.js": "/shamir-secret-splitter/static/js/2.4899f557.chunk.js",
     "static/js/2.4899f557.chunk.js.map": "/shamir-secret-splitter/static/js/2.4899f557.chunk.js.map",
     "index.html": "/shamir-secret-splitter/index.html",
-    "precache-manifest.a030cd79602613ba5c30927682555f08.js": "/shamir-secret-splitter/precache-manifest.a030cd79602613ba5c30927682555f08.js",
+    "precache-manifest.356f128b5c2001c1cf30491d5786cb8c.js": "/shamir-secret-splitter/precache-manifest.356f128b5c2001c1cf30491d5786cb8c.js",
     "service-worker.js": "/shamir-secret-splitter/service-worker.js",
     "static/css/main.e021fb22.chunk.css.map": "/shamir-secret-splitter/static/css/main.e021fb22.chunk.css.map",
     "static/js/2.4899f557.chunk.js.LICENSE": "/shamir-secret-splitter/static/js/2.4899f557.chunk.js.LICENSE",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.1f08e6b3.js",
     "static/js/2.4899f557.chunk.js",
     "static/css/main.e021fb22.chunk.css",
-    "static/js/main.f11b16a6.chunk.js"
+    "static/js/main.a8ca2768.chunk.js"
   ]
 }
