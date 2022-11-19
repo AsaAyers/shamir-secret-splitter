@@ -21,7 +21,7 @@
     "react-dom": "^16.13.1",
     "react-qr-reader": "^2.2.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
+    "react-scripts": "5.0.1",
     "shamir": "^0.7.1",
     "typeface-roboto": "0.0.75",
     "typescript": "^3.8.3"
